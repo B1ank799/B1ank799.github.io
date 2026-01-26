@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>[buuctf]easy java</title>
+      <link href="/2026/01/26/buuctf-easy-java/"/>
+      <url>/2026/01/26/buuctf-easy-java/</url>
+      
+        <content type="html"><![CDATA[<p>因为期末周也是好久没打了（遂复健并严肃学习java<br>开buu的靶场进去是：<br><img src="/images/20260126201712.png"><br>看到这里也是有点奇怪的<br><img src="/images/20260126201800.png" alt="看看help">抓包测试<br><img src="/images/20260126202248.png" alt="yakit抓测试">用yakit抓了一下也没什么发现，参考了一下其他师傅的wp发现要用post方法请求<br>于是换了bp<br><img src="/images/20260126204256.png" alt="下载"><br>也是能够下载了，不过这个help.docx没什么用<br><img src="/images/20260126204445.png" alt="试试别的">那么先试试别的参数试试能不能读取<br><img src="/images/20260126205122.png" alt="查看错误">返回错误信息是tomcat，读取WEB-INF&#x2F;web.xml试试<br><img src="/images/20260126205707.png" alt="发现类名"><br>发现有flagcontroller这种相关的类,路径也很清晰<br><img src="/images/20260126210214.png" alt="解密">base64解密即可<br>flag{4a6b90cb-f557-4e1a-ae93-56185891123b}</p><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs stata">WEB-<span class="hljs-keyword">INF</span>主要包含的文件或目录：<br>    /WEB-<span class="hljs-keyword">INF</span>/web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。<br>    /WEB-<span class="hljs-keyword">INF</span>/classes/：含了站点所有用的 <span class="hljs-keyword">class</span> 文件，包括 servlet <span class="hljs-keyword">class</span> 和非servlet <span class="hljs-keyword">class</span>，他们不能包含在 .jar文件中<br>    /WEB-<span class="hljs-keyword">INF</span>/lib/：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件<br>    /WEB-<span class="hljs-keyword">INF</span>/src/：源码目录，按照包名结构放置各个java文件。<br>    /WEB-<span class="hljs-keyword">INF</span>/database.properties：数据库配置文件<br></code></pre></td></tr></table></figure><p>贴一下参考的师傅blog</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.cnblogs.com<span class="hljs-regexp">/Cl0ud/</span>p/<span class="hljs-number">12177085</span>.html<br></code></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> WP </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ctf </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>关于家庭</title>
       <link href="/2026/01/25/%E5%85%B3%E4%BA%8E%E8%BF%87%E5%8E%BB/%E5%85%B3%E4%BA%8E%E5%AE%B6%E5%BA%AD/"/>
       <url>/2026/01/25/%E5%85%B3%E4%BA%8E%E8%BF%87%E5%8E%BB/%E5%85%B3%E4%BA%8E%E5%AE%B6%E5%BA%AD/</url>
