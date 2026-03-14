@@ -26,13 +26,13 @@
 <meta property="og:site_name" content="blank">
 <meta property="og:description" content="为了备战校赛work一下（ WEEK1[HCTF]warmupF12查看发现source.php源码访问hint.php可以发现 flag not here, and flag in ffffllllaaaagggg 代码审计环节,接受file参数 1include $_REQUEST[&#x27;file&#x27;]  可以看到白名单只有$whitelist &#x3D; [&quot;source&amp;q">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://b1ank799.github.io/.io//the_mystery_of_ip.png">
+<meta property="og:image" content="https://b1ank799.github.io/images/the_mystery_of_ip.png">
 <meta property="article:published_time" content="2026-03-13T12:51:45.000Z">
-<meta property="article:modified_time" content="2026-03-14T03:35:41.606Z">
+<meta property="article:modified_time" content="2026-03-14T03:42:47.402Z">
 <meta property="article:author" content="blank">
 <meta property="article:tag" content="ctf">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://b1ank799.github.io/.io//the_mystery_of_ip.png">
+<meta name="twitter:image" content="https://b1ank799.github.io/images/the_mystery_of_ip.png">
   
   
   
@@ -287,7 +287,9 @@
 <p>可以看到白名单只有<br><code>$whitelist = [&quot;source&quot; =&gt; &quot;source.php&quot;, &quot;hint&quot; =&gt; &quot;hint.php&quot;];</code><br>但是</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$_page</span> = <span class="hljs-title function_ invoke__">mb_substr</span>(<br><br><span class="hljs-variable">$page</span>,<br><br><span class="hljs-number">0</span>,<br><br><span class="hljs-title function_ invoke__">mb_strpos</span>(<span class="hljs-variable">$page</span> . <span class="hljs-string">&#x27;?&#x27;</span>, <span class="hljs-string">&#x27;?&#x27;</span>)<br><br>);<br><br><span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">in_array</span>(<span class="hljs-variable">$_page</span>, <span class="hljs-variable">$whitelist</span>)) &#123;<br><br><span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>截断绕过白名单<br>payload:<br><code>?file=source.php?/../../../../ffffllllaaaagggg</code><br>因为不知道flag的具体位置所以目录穿越</p>
-<h3 id="BJDCTF-2020-The-mystery-of-ip"><a href="#BJDCTF-2020-The-mystery-of-ip" class="headerlink" title="[BJDCTF 2020]The mystery of ip"></a>[BJDCTF 2020]The mystery of ip</h3><p>查看flag.php，给了一个ip。<br>yakit抓包更改X-Forwarded-For，有回显,ssti注入执行<br><img src="/.io//the_mystery_of_ip.png" srcset="/img/loading.gif" lazyload><br>这是个php的模板引擎注入，使用smarty模板</p>
+<h3 id="BJDCTF-2020-The-mystery-of-ip"><a href="#BJDCTF-2020-The-mystery-of-ip" class="headerlink" title="[BJDCTF 2020]The mystery of ip"></a>[BJDCTF 2020]The mystery of ip</h3><p>查看flag.php，给了一个ip。<br>yakit抓包更改X-Forwarded-For，有回显,ssti注入执行</p>
+<p><img src="/images/the_mystery_of_ip.png" srcset="/img/loading.gif" lazyload alt="执行"></p>
+<p>这是个php的模板引擎注入，使用smarty模板</p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">$smarty-&gt;display(<span class="hljs-string">&quot;string:&quot;</span> . $_SERVER[<span class="hljs-string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>])<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
 
 <p>所以可以用类似于php标签的形式完成注入。<br><code>&#123;if phpinfo()&#125;&#123;/if&#125;</code></p>
