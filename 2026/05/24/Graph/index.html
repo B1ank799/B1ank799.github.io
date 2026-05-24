@@ -1,0 +1,767 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/blank.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="blank">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="DFS&amp;&amp;BFS12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;string.h&gt;  #define MAXSIZE 100">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graph">
+<meta property="og:url" content="https://b1ank799.github.io/2026/05/24/Graph/index.html">
+<meta property="og:site_name" content="blank">
+<meta property="og:description" content="DFS&amp;&amp;BFS12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;string.h&gt;  #define MAXSIZE 100">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-05-24T13:18:39.000Z">
+<meta property="article:modified_time" content="2026-05-24T13:38:49.192Z">
+<meta property="article:author" content="blank">
+<meta property="article:tag" content="c">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Graph - blank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"b1ank799.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>blank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Graph"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-24 21:18" pubdate>
+          May 24, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Graph</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="DFS-BFS"><a href="#DFS-BFS" class="headerlink" title="DFS&&BFS"></a>DFS&amp;&amp;BFS</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br>  <br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXSIZE 100</span><br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">arcnode</span> {</span><br>	<span class="hljs-type">int</span> index;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">arcnode</span>* <span class="hljs-title">next</span>;</span><br>} arcnode;<br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span><br>	<span class="hljs-type">int</span> data;<br>	arcnode* firstarc;<br>} vexnode;<br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span><br>	vexnode vers[MAXSIZE];<br>	<span class="hljs-type">int</span> vexnum, arcnum;<br>} Gra;<br>  <br><span class="hljs-type">void</span> <span class="hljs-title function_">DFS</span><span class="hljs-params">(Gra g, <span class="hljs-type">int</span> *v, <span class="hljs-type">int</span> begin)</span> {<br>	v[begin] = <span class="hljs-number">1</span>;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d"</span>, g.vers[begin]. data);<br>	arcnode* p = g.vers[begin].firstarc;<br>	<span class="hljs-keyword">while</span> (p) {<br>		<span class="hljs-keyword">if</span> (!v[p-&gt;index]) {<br>			DFS(g,v,p-&gt;index);<br>		}<br>		p=p-&gt;next;<br>	}<br>}<br>  <br><span class="hljs-type">void</span> <span class="hljs-title function_">BFS</span><span class="hljs-params">(Gra g,<span class="hljs-type">int</span> *v,<span class="hljs-type">int</span> begin)</span>{<br>	<span class="hljs-type">int</span> <span class="hljs-built_in">queue</span>[MAXSIZE];<br>	<span class="hljs-type">int</span> front = <span class="hljs-number">-1</span>, rear = <span class="hljs-number">-1</span>;<br>	<span class="hljs-built_in">queue</span>[++rear] = begin;<br>	v[begin] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">while</span> (rear &gt; front) {<br>		arcnode* p = g.vers[<span class="hljs-built_in">queue</span>[++front]].firstarc;<br>		<span class="hljs-keyword">while</span> (p) {<br>			<span class="hljs-keyword">if</span> (!v[p-&gt;index]) {<br>				<span class="hljs-built_in">queue</span>[++rear] = p-&gt;index;<br>				v[p-&gt;index] = <span class="hljs-number">1</span>;<br>			}<br>			p = p-&gt;next;<br>		}<br>	}<br>}<br></code></pre></td></tr></table></figure>
+
+<h2 id="Prim"><a href="#Prim" class="headerlink" title="Prim"></a>Prim</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br>  <br><span class="hljs-meta">#<span class="hljs-keyword">define</span> INF 0x3f3f3f3f</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXSIZE 100</span><br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">arcnode</span> {</span><br>	<span class="hljs-type">int</span> index;<br>	<span class="hljs-type">int</span> weight;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">arcnode</span>* <span class="hljs-title">next</span>;</span><br>} arcnode;<br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span><br>	arcnode* firstarc;<br>} vexnode;<br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span><br>	vexnode vers[MAXSIZE];<br>	<span class="hljs-type">int</span> vexnum, arcnum;<br>}Gra;<br>  <br><span class="hljs-type">int</span> <span class="hljs-title function_">Prim</span><span class="hljs-params">(Gra* g, <span class="hljs-type">int</span> *v, <span class="hljs-type">int</span> begin)</span>{<br>	v[begin] = <span class="hljs-number">1</span>;<br>	<span class="hljs-type">int</span> sum = <span class="hljs-number">1</span>, sumweight = <span class="hljs-number">0</span>;<br>	<span class="hljs-type">int</span> weight = INF;<br>	<span class="hljs-type">int</span> idx;<br>	  <br>	<span class="hljs-keyword">while</span> (sum &lt; g-&gt;vexnum) {<br>		weight = INF;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; g-&gt;vexnum+<span class="hljs-number">1</span>; i++){<br>			<span class="hljs-keyword">if</span> (v[i]) {<br>				arcnode* p = g-&gt;vers[i].firstarc;<br>				<span class="hljs-keyword">while</span> (p) {<br>					<span class="hljs-keyword">if</span>(p-&gt;weight &lt; weight &amp;&amp; !v[p-&gt;index]){<br>						weight = p-&gt;weight;<br>						idx = p-&gt;index;<br>					}<br>					p = p-&gt;next;<br>				}<br>			}<br>		}<br>		<span class="hljs-keyword">if</span> (weight == INF) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>		sumweight += weight;<br>		v[idx] = <span class="hljs-number">1</span>;<br>		sum++;<br>	}<br>	<span class="hljs-keyword">return</span> sumweight;<br>}<br>  <br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>{<br>	Gra g;<br>	<span class="hljs-built_in">memset</span>(&amp;g, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(Gra));<br>	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d %d"</span>, &amp;g.vexnum, &amp;g.arcnum);<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; g.arcnum; i++) {<br>		<span class="hljs-type">int</span> idx1, idx2, w;<br>		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d %d %d"</span>, &amp;idx1, &amp;idx2, &amp;w);<br>		arcnode* t = (arcnode*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(arcnode));<br>		t-&gt;index = idx2;<br>		t-&gt;weight = w;<br>		t-&gt;next = g.vers[idx1].firstarc;<br>		g.vers[idx1].firstarc = t;<br>		  <br>		arcnode* p = (arcnode*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(arcnode));<br>		p-&gt;index = idx1;<br>		p-&gt;weight = w;<br>		p-&gt;next = g.vers[idx2].firstarc;<br>		g.vers[idx2].firstarc = p;<br>	}<br>	  <br>	<span class="hljs-type">int</span> visited[g.vexnum+<span class="hljs-number">1</span>];<br>	<span class="hljs-built_in">memset</span>(visited, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(visited));<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d"</span>, Prim(&amp;g, visited, <span class="hljs-number">1</span>));<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>}<br></code></pre></td></tr></table></figure>
+<h2 id="Kruskal"><a href="#Kruskal" class="headerlink" title="Kruskal"></a>Kruskal</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br>  <br><span class="hljs-meta">#<span class="hljs-keyword">define</span> INF 0x3f3f3f3f</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXSIZE 100</span><br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">arcnode</span> {</span><br>	<span class="hljs-type">int</span> begin;<br>	<span class="hljs-type">int</span> end;<br>	<span class="hljs-type">int</span> weight;<br>}arcnode;<br>  <br><span class="hljs-type">int</span> <span class="hljs-title function_">cmp</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">void</span>* a, <span class="hljs-type">const</span> <span class="hljs-type">void</span>* b)</span>{<br>	arcnode* nodea = (arcnode*)a;<br>	arcnode* nodeb = (arcnode*)b;<br>	<span class="hljs-keyword">return</span> nodea-&gt;weight - nodeb-&gt;weight;<br>}<br>  <br><span class="hljs-type">int</span> <span class="hljs-title function_">find_root</span><span class="hljs-params">(<span class="hljs-type">int</span> idx, <span class="hljs-type">int</span> *root)</span>{<br>	<span class="hljs-keyword">if</span>(idx != root[idx]){<br>		root[idx] = find_root(root[idx], root);<br>	}<br>	<span class="hljs-keyword">return</span> root[idx];<br>}<br>  <br><span class="hljs-comment">//实际上只需要边节点</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">Kruskal</span><span class="hljs-params">(arcnode* edges, <span class="hljs-type">int</span> size, <span class="hljs-type">int</span> vexnum)</span>{<br>	qsort(edges, size, <span class="hljs-keyword">sizeof</span>(arcnode), cmp);<br>	<span class="hljs-type">int</span> root[vexnum];<br>	<span class="hljs-type">int</span> rootsize[vexnum];<br>	<span class="hljs-type">int</span> total = <span class="hljs-number">0</span>,finised = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; vexnum; i++){<br>		root[i] = i;<br>		rootsize[i] = <span class="hljs-number">1</span>;<br>	}<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) {<br>		<span class="hljs-type">int</span> idx1 = edges[i].begin;<br>		<span class="hljs-type">int</span> idx2 = edges[i].end;<br>		<span class="hljs-type">int</span> weight = edges[i].weight;<br>		<br>		<span class="hljs-type">int</span> root_a = find_root(idx1,root);<br>		<span class="hljs-type">int</span> root_b = find_root(idx2,root);<br>		<br>		<span class="hljs-keyword">if</span>(root_a == root_b) <span class="hljs-keyword">continue</span>;<br>		  <br>		<span class="hljs-keyword">if</span>(rootsize[root_a] &gt; rootsize[root_b]){<br>			root[root_b] = root_a;<br>			rootsize[root_a] += rootsize[root_b];<br>		}<span class="hljs-keyword">else</span>{<br>			root[root_a] = root_b;<br>			rootsize[root_b] += rootsize[root_a];<br>		}<br>		total += weight;<br>		finised++;<br>	}<br>	<span class="hljs-keyword">if</span>(finised == vexnum<span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> total;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>}<br>  <br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>{<br>	<span class="hljs-type">int</span> vexnum, arcnum;<br>	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d %d"</span>, &amp;vexnum, &amp;arcnum);<br>	arcnode edges[arcnum];<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; arcnum; i++)<br>		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d %d %d"</span>, &amp;edges[i].begin, &amp;edges[i].end, &amp;edges[i].weight);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d"</span>, Kruskal(edges, arcnum, vexnum));<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>}<br></code></pre></td></tr></table></figure>
+<h2 id="Dijktra"><a href="#Dijktra" class="headerlink" title="Dijktra"></a>Dijktra</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br>  <br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXSIZE 100</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> INF 0x3f3f3f</span><br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">arcnode</span> {</span><br>	<span class="hljs-type">int</span> index;<br>	<span class="hljs-type">int</span> weight;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">arcnode</span>* <span class="hljs-title">next</span>;</span><br>} arcnode;<br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span><br>	<span class="hljs-type">int</span> data;<br>	arcnode* firstarc;<br>} vexnode;<br>  <br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span><br>	vexnode vers[MAXSIZE];<br>	<span class="hljs-type">int</span> vexnum,arcnum;<br>}Gra;<br>  <br><span class="hljs-type">int</span> <span class="hljs-title function_">Findmin</span><span class="hljs-params">(Gra *g, <span class="hljs-type">int</span> *v)</span>{<br>	<span class="hljs-type">int</span> index, min = INF;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; g-&gt;vexnum; i++) {<br>		<span class="hljs-keyword">if</span> (g-&gt;vers[i].data &lt; min &amp;&amp; !v[i]) {<br>			min = g-&gt;vers[i].data;<br>			index = i;<br>		}<br>	}<br>	<span class="hljs-keyword">if</span> (min == INF){<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>	}<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> index;<br>}<br>  <br><span class="hljs-type">void</span> <span class="hljs-title function_">Dijkstra</span><span class="hljs-params">(Gra *g, <span class="hljs-type">int</span> begin, <span class="hljs-type">int</span> *v)</span> {<br>	v[begin] = <span class="hljs-number">1</span>;<br>	  <br>	arcnode *p = g-&gt;vers[begin].firstarc;<br>	<span class="hljs-keyword">while</span> (p) {<br>		<span class="hljs-keyword">if</span> (!v[p-&gt;index] &amp;&amp;<br>		g-&gt;vers[begin].data + p-&gt;weight &lt; g-&gt;vers[p-&gt;index].data) {<br>			g-&gt;vers[p-&gt;index].data = g-&gt;vers[begin].data + p-&gt;weight;<br>		}<br>		p = p-&gt;next;<br>	}<br>	  <br>	<span class="hljs-type">int</span> index = Findmin(g, v);<br>	<span class="hljs-keyword">if</span> (index != <span class="hljs-number">-1</span>) Dijkstra(g, index, v);<br>}<br><br><br>  <br><span class="hljs-type">void</span> <span class="hljs-title function_">Print</span><span class="hljs-params">(Gra* g, <span class="hljs-type">int</span> begin)</span>{<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; g-&gt;vexnum; i++) {<br>		<span class="hljs-keyword">if</span>(i==begin) <span class="hljs-keyword">continue</span>;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d 到 %d 的距离为 %d \n"</span>,begin,i,g-&gt;vers[i].data);<br>	}<br>}<br>  <br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>{<br>	Gra g;<br>	<span class="hljs-built_in">memset</span>(&amp;g, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(Gra));<br>	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d %d"</span>, &amp;g.vexnum, &amp;g.arcnum);<br>	  <br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; g.vexnum; i++) {<br>		g.vers[i].data = INF;<br>	}<br>	  <br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; g.arcnum; i++)<br>	{<br>		<span class="hljs-type">int</span> idx1, idx2, w;<br>		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d %d %d"</span>, &amp;idx1, &amp;idx2, &amp;w);<br>		arcnode* t = (arcnode*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(arcnode));<br>		t-&gt;index = idx2;<br>		t-&gt;weight = w;<br>		t-&gt;next = g.vers[idx1].firstarc;<br>		g.vers[idx1].firstarc = t;<br>		arcnode* p = (arcnode*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(arcnode));<br>		p-&gt;index = idx1;<br>		p-&gt;weight = w;<br>		p-&gt;next = g.vers[idx2].firstarc;<br>		g.vers[idx2].firstarc = p;<br>	}<br>	  <br>	<span class="hljs-type">int</span> visited[g.vexnum];<br>	<span class="hljs-built_in">memset</span>(visited, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(visited));<br>	Dijkstra(&amp;g, <span class="hljs-number">0</span>, visited);<br>	Print(&amp;g, <span class="hljs-number">0</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>}<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9D%BF%E5%AD%90/" class="category-chain-item">板子</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/c/" class="print-no-link">#c</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Graph</div>
+      <div>https://b1ank799.github.io/2026/05/24/Graph/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>blank</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>May 24, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/05/%E5%B9%BF%E5%B7%9E%E8%A1%8C/" title="广州行">
+                        <span class="hidden-mobile">广州行</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
