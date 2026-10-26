@@ -1,99 +1,175 @@
-
-
 <!DOCTYPE html>
-<html lang="en" data-default-color-scheme=auto>
-
-
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="blank">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
 
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/blank.png">
-  
+                // Try immediately
+                if (addBodyClass()) return;
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="blank">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="回顾一下和猫猫一起去广州旅游的见闻。 5.1早上和猫猫从学校出发赶早八的高铁前往广州站，经过五个小时的车程成功抵达广州站，一下列车就感觉到岭南的湿热。转乘地铁前往订的酒店，在地铁站稍稍等了一趟车，很清晰地感觉到广州的地铁车厢比武汉要宽一些，虽然人流量也很大，但是竟然没有出现二号线那种摩肩接踵的情况。抵达酒店已经一点四十，收拾好东西后稍稍休息也不太想在下午出门，于是点了个民记煲仔饭当作午饭。煲仔饭是">
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://b1ank799.github.io/2026/05/05/广州行/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="广州行">
 <meta property="og:url" content="https://b1ank799.github.io/2026/05/05/%E5%B9%BF%E5%B7%9E%E8%A1%8C/index.html">
 <meta property="og:site_name" content="blank">
-<meta property="og:description" content="回顾一下和猫猫一起去广州旅游的见闻。 5.1早上和猫猫从学校出发赶早八的高铁前往广州站，经过五个小时的车程成功抵达广州站，一下列车就感觉到岭南的湿热。转乘地铁前往订的酒店，在地铁站稍稍等了一趟车，很清晰地感觉到广州的地铁车厢比武汉要宽一些，虽然人流量也很大，但是竟然没有出现二号线那种摩肩接踵的情况。抵达酒店已经一点四十，收拾好东西后稍稍休息也不太想在下午出门，于是点了个民记煲仔饭当作午饭。煲仔饭是">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://b1ank799.github.io/images/zhujiang.png">
-<meta property="og:image" content="https://b1ank799.github.io/images/guangzhoutower.png">
-<meta property="og:image" content="https://b1ank799.github.io/images/chashao.jpg">
-<meta property="og:image" content="https://b1ank799.github.io/images/chashao1.jpg">
-<meta property="og:image" content="https://b1ank799.github.io/images/xiajiao.jpg">
-<meta property="og:image" content="https://b1ank799.github.io/images/hongmichang.jpg">
-<meta property="og:image" content="https://b1ank799.github.io/images/church.jpg">
-<meta property="og:image" content="https://b1ank799.github.io/images/shuiyue.jpg">
+<meta property="og:image" content="https://b1ank799.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-05-05T08:34:27.000Z">
 <meta property="article:modified_time" content="2026-08-10T10:24:42.533Z">
 <meta property="article:author" content="blank">
 <meta property="article:tag" content="游记">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://b1ank799.github.io/images/zhujiang.png">
-  
-  
-  
-  <title>广州行 - blank</title>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://b1ank799.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.jpg">
+    <meta name="theme-color" content="#8faadc">
+    <link rel="shortcut icon" href="/images/favicon.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            广州行 | blank
+        
+    </title>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
 
+    <!--- Inject Part-->
+    
 
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
+    
+<link rel="stylesheet" href="/css/style.css">
 
 
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
 
+    
 
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"b1ank799.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
 
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"b1ank799.github.io","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#8faadc","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":false,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":false,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/background1.png","dark":"/images/background1.png"},"title":"blank","subtitle":{"text":["不知何时醒来"],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":false,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"首页":{"path":"/","icon":""},"归档":{"path":"/archives/","icon":""},"分类":{"path":"/categories/","icon":""},"标签":{"path":"/tags/","icon":""},"关于":{"path":"/about/","icon":""}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":false,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":false,"icon":"","start":"2022/8/17 11:45:14","statistics":false,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
 
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
 
-  
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
   direction: ltr;
 }
@@ -209,208 +285,407 @@ mjx-container[display="true"] + br {
 </style></head>
 
 
-
 <body>
-  
+	<div class="progress-bar-container">
+	
 
-  <header>
-    
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
 
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>blank</strong>
-    </a>
+<main class="page-container" id="swup">
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
+	
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>Home</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>Archives</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>Categories</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>Tags</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>About</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                blank
+                
             </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="广州行"></span>
-          
         </div>
 
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-05-05 16:34" pubdate>
-          May 5, 2026 pm
-        </time>
-      </span>
-    
-  </div>
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
 
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          4.2k words
-        
-      </span>
-    
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
 
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          36 mins
-        
-      </span>
-    
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    
-    
-  </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    
+                                    首页
+                                    
+                                </a>
 
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-        
-      </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    
+                                    归档
+                                    
+                                </a>
 
-      
-    </div>
-  </div>
-</div>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-</div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    
+                                    分类
+                                    
+                                </a>
 
-  </header>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-  <main>
-    
-      
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    
+                                    标签
+                                    
+                                </a>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    
+                                    关于
+                                    
+                                </a>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">广州行</h1>
-            
-            
-              <div class="markdown-body">
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
                 
-                <p>回顾一下和猫猫一起去广州旅游的见闻。</p>
-<h2 id="5-1"><a href="#5-1" class="headerlink" title="5.1"></a>5.1</h2><p>早上和猫猫从学校出发赶早八的高铁前往广州站，经过五个小时的车程成功抵达广州站，一下列车就感觉到岭南的湿热。<br>转乘地铁前往订的酒店，在地铁站稍稍等了一趟车，很清晰地感觉到广州的地铁车厢比武汉要宽一些，虽然人流量也很大，但是竟然没有出现二号线那种摩肩接踵的情况。<br>抵达酒店已经一点四十，收拾好东西后稍稍休息也不太想在下午出门，于是点了个民记煲仔饭当作午饭。煲仔饭是牛肉和梅菜肉饼双拼，几棵鲜绿的菜薹点缀着烧得脆脆的锅巴，炒牛肉裹着浓郁的酱汁，梅菜肉饼吃不出来饼，只感觉像是梅菜肉团。菜薹虽然很大几棵，但是咬上去还是很爽口，肉的分量也很足，一份煲仔饭让两个人都吃得很饱。<br>休息到四点半，我们从酒店出发沿着珠江行走，路途中看见广州塔，于是临时起意前往广州塔。<br>从越秀区到广州塔距离很远，步行有点艰难，于是我们选择骑共享单车，但是由于我缺乏锻炼，骑单车17min走了两公里就体力不支了，于是我们在二沙稍作休息。<br>二沙整个岛貌似都是一个体育公园，绿化面积大到随处可以看见铺着野餐布出游的家庭、草坪音乐小聚等等。我们从二沙一路漫步，沿着广州大桥越过珠江，继续向广州塔前进。<br><img src="/images/zhujiang.png" srcset="/img/loading.gif" lazyload></p>
-<p>在广州大桥上看到江水粼粼的波光因着吹过面颊的风涌动着，下午出门的疲惫一扫而空，此情此景才明白什么叫做“月涌大江流”，虽然不甚应景，但是心中不觉畅快几分，越发觉得行万里路是增长阅历的好方式。<br>过了广州大桥，我们沿着人流不多的道路向着广州塔曲折前进，街边有着被油烟熏黑招牌的小店、门口散落枝叶的花店、疏疏落落的行人。一路上零零星星的几个人在不同的小店门前或是徘徊或是闲聊，好像和平常见到的街道没有什么不同。这时候我才觉得广州是和我处在一个世界的，不是一个被过量霓虹灯闪耀装饰出的时尚世界。<br>抵达广州塔广场已是七点，恰逢广州塔亮起迷人的夜灯，谁能忍不住不捕捉“异色炫彩广州塔”，也是连着抓拍了几张不同色彩的广州塔。<br>因为广州的烧鹅特别出名，所以我们晚饭选了一家就近的粤菜餐厅品尝。烧鹅的卖相很好看，不知道是吃不惯鹅肉还是不习惯这种做法，一开始吃起来有点腥味，后来蘸着酱料吃才觉得不错。咸蛋黄啫哩虾就是裹着咸蛋黄的虾，我不爱吃没剥壳还裹着料的虾，感觉较为一般，只吃了一点，但是猫猫觉得还不错。豆角五花肉中规中矩，不做赘叙。<br>晚饭后我们准备搭乘地铁回酒店，被告知广州塔地铁站坐上地铁大概要排上一小时队，就算转到赤峰岗也要半小时。于是我们再次步行，从稠密的人流中挤出去，重新越过广州大桥返回二沙打车，等了二三十分钟才打到，回到酒店已经十点。<br><img src="/images/guangzhoutower.png" srcset="/img/loading.gif" lazyload alt="重返广州大桥所摄"></p>
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">8</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">广州行</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/redefine-avatar.svg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">blank</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv2</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-05-05 16:34:27</span>
+        <span class="mobile">2026-05-05 16:34:27</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-08-10 18:24:42</span>
+            <span class="mobile">2026-08-10 18:24:42</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%B8%B8%E8%AE%B0/">游记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.9k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>12 Mins</span>
+        </span>
+    
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>回顾一下和猫猫一起去广州旅游的见闻。</p>
+<h2 id="5-1"><a href="#5-1" class="headerlink" title="5.1"></a>5.1</h2><p>早上和猫猫从学校出发赶早八的高铁前往广州站，经过五个小时的车程成功抵达广州站，一下列车就感觉到岭南的湿热。<br>转乘地铁前往订的酒店，在地铁站稍稍等了一趟车，很清晰地感觉到广州的地铁车厢比武汉要宽一些，虽然人流量也很大，但是竟然没有出现二号线那种摩肩接踵的情况。<br>抵达酒店已经一点四十，收拾好东西后稍稍休息也不太想在下午出门，于是点了个民记煲仔饭当作午饭。煲仔饭是牛肉和梅菜肉饼双拼，几棵鲜绿的菜薹点缀着烧得脆脆的锅巴，炒牛肉裹着浓郁的酱汁，梅菜肉饼吃不出来饼，只感觉像是梅菜肉团。菜薹虽然很大几棵，但是咬上去还是很爽口，肉的分量也很足，一份煲仔饭让两个人都吃得很饱。<br>休息到四点半，我们从酒店出发沿着珠江行走，路途中看见广州塔，于是临时起意前往广州塔。<br>从越秀区到广州塔距离很远，步行有点艰难，于是我们选择骑共享单车，但是由于我缺乏锻炼，骑单车17min走了两公里就体力不支了，于是我们在二沙稍作休息。<br>二沙整个岛貌似都是一个体育公园，绿化面积大到随处可以看见铺着野餐布出游的家庭、草坪音乐小聚等等。我们从二沙一路漫步，沿着广州大桥越过珠江，继续向广州塔前进。<br><img lazyload="" src="/images/loading.svg" data-src="/images/zhujiang.png"></p>
+<p>在广州大桥上看到江水粼粼的波光因着吹过面颊的风涌动着，下午出门的疲惫一扫而空，此情此景才明白什么叫做“月涌大江流”，虽然不甚应景，但是心中不觉畅快几分，越发觉得行万里路是增长阅历的好方式。<br>过了广州大桥，我们沿着人流不多的道路向着广州塔曲折前进，街边有着被油烟熏黑招牌的小店、门口散落枝叶的花店、疏疏落落的行人。一路上零零星星的几个人在不同的小店门前或是徘徊或是闲聊，好像和平常见到的街道没有什么不同。这时候我才觉得广州是和我处在一个世界的，不是一个被过量霓虹灯闪耀装饰出的时尚世界。<br>抵达广州塔广场已是七点，恰逢广州塔亮起迷人的夜灯，谁能忍不住不捕捉“异色炫彩广州塔”，也是连着抓拍了几张不同色彩的广州塔。<br>因为广州的烧鹅特别出名，所以我们晚饭选了一家就近的粤菜餐厅品尝。烧鹅的卖相很好看，不知道是吃不惯鹅肉还是不习惯这种做法，一开始吃起来有点腥味，后来蘸着酱料吃才觉得不错。咸蛋黄啫哩虾就是裹着咸蛋黄的虾，我不爱吃没剥壳还裹着料的虾，感觉较为一般，只吃了一点，但是猫猫觉得还不错。豆角五花肉中规中矩，不做赘叙。<br>晚饭后我们准备搭乘地铁回酒店，被告知广州塔地铁站坐上地铁大概要排上一小时队，就算转到赤峰岗也要半小时。于是我们再次步行，从稠密的人流中挤出去，重新越过广州大桥返回二沙打车，等了二三十分钟才打到，回到酒店已经十点。<br><img lazyload="" src="/images/loading.svg" data-src="/images/guangzhoutower.png" alt="重返广州大桥所摄"></p>
 <h2 id="5-2"><a href="#5-2" class="headerlink" title="5.2"></a>5.2</h2><p>因为前一天太累所以早上一直赖床没能早起去吃早茶，于是点了份肠粉外卖过早。广州的肠粉很薄，半透明的粉皮轻软但又有弹性，使得咀嚼时能获得一份恰到好处的满足，浇上特制的酱料拌匀风味更佳。<br>吃过早饭，我们前往南越王博物馆（王墓）参观。排队时候发现博物馆附近做了许多埃及风格的装饰，叫人摸不着头脑，进馆才发现原来是博物馆做了一个和尼罗河的联动，不免有些怪模怪样的。由于没做攻略，我们一头扎进人很多的展馆，结果半天不见南越王的展品，只有些不同年代的瓷器。从展馆出来拾阶而上，才发现原来王墓展馆在里面，于是转而进去参观。墓室和展品区人都多的令人头晕目眩，只能走马观花一阵离开了博物馆。<br>不知道从什么时候兴起这一种博物馆的热潮，每逢节假日博物馆人总是异常的多，摩肩接踵地在不同的馆里打卡拍照。旅行在外不打卡博物馆好像已然是一件必要的体验，否则花的钱就像没有充分利用一样。不过，趁这几个小时匆匆地挤在人群中浏览一遍文物好像也体验不到什么，反而消磨了自己的精神，可能以后会慎重考虑参观各种博物馆了😩。</p>
 <p>参观完时间尚早，不是吃饭的时候，于是我们就近坐了一站地铁前往著名的文化景区北京路。文化倒没怎么体验到，商业化倒是很充分，街区被各种商业活动填塞的满满当当，就连大佛寺也坐落在各种商铺之间，吐纳着络绎不绝的人流。<br>相比江汉路，北京路更像是一个block而非street，隔着一条街道就能看见一个硕大的商业中心，堆满了繁复精致的雕花。而江汉路除了主干道的繁华以外，是很容易探寻到各种老旧的小巷子的。当然，这须得穿过大小路边摊的层层封锁。</p>
-<p>走到一点，我们准备约一家很有名的早茶店吃午饭，可是线上预约通道封闭了，于是选了一家北京路上的点都德，排号了一会成功落座。<br>可能是广东的习俗，吃早茶是一定要配上茶水的。虽然我实在不知道这种特意泡好的茶和东方树叶有什么区别，但是服务员的动作很漂亮，第一道的茶水从容地倒进圆形的白瓷盘中流走，第二道茶水才被倒进茶杯中待客人饮用。<br>在座位上等得肚子抗议了许久，我们的菜品才终于被送到桌子上。<br>最先上的是叉烧包，面发的蓬松而柔软，整体看起来像三瓣的开花馒头。沿着这三瓣撕开热气腾腾的包子，内馅是焦糖色的叉烧，咬一口会烫到舌尖，但是香甜就足以让人忘记这一点点疼了。<br><img src="/images/chashao.jpg" srcset="/img/loading.gif" lazyload><br><img src="/images/chashao1.jpg" srcset="/img/loading.gif" lazyload alt="撕开后的叉烧包"></p>
-<p>凤爪做的很漂亮，配菜有一些已经蒸烂的花生，菜名的百合酱我吃不出来，但是凤爪的软烂得令人难以拒绝——而且还没有脱骨！脱骨的虎皮凤爪固然有方便食用的效果，但是不脱骨的凤爪更有自己捕食的快乐～<br><img src="/images/xiajiao.jpg" srcset="/img/loading.gif" lazyload><br>虾饺不愧是广东经典名菜，晶莹剔透的皮包着慢慢的虾仁馅，没有什么别的酱料点缀，只有一点点佐料激发出一整只虾仁的清甜😋<br><img src="/images/hongmichang.jpg" srcset="/img/loading.gif" lazyload><br>红米肠看着就很好吃，给了麻酱和另外一种酱料，看着红油很多，其实不辣。红色的肠皮下是一层酥脆的网，包裹着一整只虾仁，和虾饺Q弹的口感更多一种酥脆。空口吃已经很香了，蘸酱吃香气更甚。<br>陆陆续续吃了一段时间才感觉到有点腻，这时候茶的作用就发挥了，喝上一两口就能起到很好的解腻作用，感觉自己能接着吃一盘。<br>吃过饭，我们从北京路回到酒店接着休息。</p>
+<p>走到一点，我们准备约一家很有名的早茶店吃午饭，可是线上预约通道封闭了，于是选了一家北京路上的点都德，排号了一会成功落座。<br>可能是广东的习俗，吃早茶是一定要配上茶水的。虽然我实在不知道这种特意泡好的茶和东方树叶有什么区别，但是服务员的动作很漂亮，第一道的茶水从容地倒进圆形的白瓷盘中流走，第二道茶水才被倒进茶杯中待客人饮用。<br>在座位上等得肚子抗议了许久，我们的菜品才终于被送到桌子上。<br>最先上的是叉烧包，面发的蓬松而柔软，整体看起来像三瓣的开花馒头。沿着这三瓣撕开热气腾腾的包子，内馅是焦糖色的叉烧，咬一口会烫到舌尖，但是香甜就足以让人忘记这一点点疼了。<br><img lazyload="" src="/images/loading.svg" data-src="/images/chashao.jpg"><br><img lazyload="" src="/images/loading.svg" data-src="/images/chashao1.jpg" alt="撕开后的叉烧包"></p>
+<p>凤爪做的很漂亮，配菜有一些已经蒸烂的花生，菜名的百合酱我吃不出来，但是凤爪的软烂得令人难以拒绝——而且还没有脱骨！脱骨的虎皮凤爪固然有方便食用的效果，但是不脱骨的凤爪更有自己捕食的快乐～<br><img lazyload="" src="/images/loading.svg" data-src="/images/xiajiao.jpg"><br>虾饺不愧是广东经典名菜，晶莹剔透的皮包着慢慢的虾仁馅，没有什么别的酱料点缀，只有一点点佐料激发出一整只虾仁的清甜😋<br><img lazyload="" src="/images/loading.svg" data-src="/images/hongmichang.jpg"><br>红米肠看着就很好吃，给了麻酱和另外一种酱料，看着红油很多，其实不辣。红色的肠皮下是一层酥脆的网，包裹着一整只虾仁，和虾饺Q弹的口感更多一种酥脆。空口吃已经很香了，蘸酱吃香气更甚。<br>陆陆续续吃了一段时间才感觉到有点腻，这时候茶的作用就发挥了，喝上一两口就能起到很好的解腻作用，感觉自己能接着吃一盘。<br>吃过饭，我们从北京路回到酒店接着休息。</p>
 <p>傍晚时分，我们重新出发进行city walk,首先前往圣心大教堂，然后坐上地铁抵达文化公园，准备从文化公园走到沙面。<br>我们没有进圣心大教堂，只从栏杆外面简单地观赏了一番。很有意思的是大教堂正门面前笔直的红旗杆，以及栅栏门口贴上的春联，颇有一种本土化的味道。</p>
-<p><img src="/images/church.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img lazyload="" src="/images/loading.svg" data-src="/images/church.jpg"></p>
 <p>我们从教堂旁边的小巷子穿过浓绿的树荫发现一条摆着各色生鲜果蔬的小摊，而地铁口就在这些水汽淋漓的小摊旁边。值得一提的是，广东有很多卖菠萝和凤梨的小摊，使得果香弥漫在湿润的空气中，香甜但不过于厚重。<br>我们坐地铁到文化公园，预备从这里走到沙面。但是由于忘记带水，想就近找个甜品店买一份双皮奶解渴，很可惜踩雷，甜腻的味道让我们不得不又买了一瓶矿泉水解腻。<br>沙面是珠江的另一侧，这里的建筑非常西式，但不同于黎黄陂路的俄式风格，可惜我也辨别不出什么具体是什么风格。我们沿着江边在晚风中步行，松散了长时间徒步的疲惫。沙面的建筑风格很高级，整个街区也由高端的商铺和机关构成，虽然确实很赏心悦目，但是我们还是感到一种误入天家的迷乱，快步离开了这里。<br>因为今天的行程实在太繁多，我们从沙面到达另一个商业区，简单休息片刻就回到了酒店。<br>在酒店突然想起来我们没吃晚饭只吃了很难吃的甜品，于是洗完澡美美地点了烧烤外卖～虽然本次目标是品尝广东美食，但是晚上撸串也是不得不品的一环。</p>
 <h2 id="5-3"><a href="#5-3" class="headerlink" title="5.3"></a>5.3</h2><p>今天广东暴雨，于是我们顺理成章地在酒店睡了一上午（<br>值得一提的是中途点了顺记的双皮奶，是真的好吃！便宜且美味，双皮奶顺滑又甘甜，丝毫不腻！<br>下午才出门，准备探索一位广州朋友推荐的大型地下商场——时尚天河。我们乘坐地铁抵达后，被繁杂的灯光和拥挤的人流吓了一跳。然而为了寻找谷店，我们还是耐着性子在近乎迷宫的建筑里穿梭，终于抵达了二次元区域。<br>逛谷店一向是我们平日的消遣，每次去江汉路总要前往X118探寻一番，并没有什么特别的意义。然而不得不说的是，一般商业区和二次元区域放在一起简直是一种灾难。巨大的人流量使得我们的手机信号都十分卡顿……<br>逛过几乎所有的谷子店，其实可以看到更多的日谷甚至于一些不太能播的番的谷，也有剑网三和一些老ip的周边，我甚至发现了美妙天堂的专属展柜，探索这些不同的文化也是我们的乐趣所在。不过我们除了给一个朋友代购超时空辉夜姬的谷子，自己其实并没有买。</p>
 <p>从时尚天河出来，我们去吃广东著名的潮汕牛肉火锅！<br>潮汕的牛肉火锅和我们平时吃的不同，没有锅底，就是牛骨清汤的锅底，且只吃牛肉！我们坐在位置上看见服务员端着几盘切得极薄的牛肉端上来，每一盘都来自牛的不同部位，虽然我们看不出有什么区别，但是很是信任这些肉的新鲜度——橱窗后吊着很新鲜的牛腿呢！<br>清汤的锅底，所以味道全来自于调料。一开始我像往常一样盛了一碗麻酱，结果被噎的差点咽不下去。于是也不固执，按照网上推荐的调法：两勺沙茶酱、两勺麻酱、一勺蒜泥、一勺小米辣、少许香油和醋。这样蘸上烫好的牛肉，简直让人欲罢不能……虽然我们两个外地人不敢真的烫几秒就捞出，可能稍微有点老了，但是纯牛肉的韧劲和份量蘸上调料真的能给人带来一种大块吃肉的满足！</p>
-<p>吃过晚饭，我们乘坐地铁准备返回酒店，中途又顺路去了一趟动漫星城。依旧是很多人，店铺的环境说实话有些狭小，且吃多了有点头晕，我慢慢地有点走不动路了。于是我们在一家明日方舟周边占多数的谷店稍作休息，休息之余，我品鉴了一番新上的通行证饼图。想到猫猫很喜欢水月，于是给他顺手抽了一发，结果一发就出了水月。好耶～<br><img src="/images/shuiyue.jpg" srcset="/img/loading.gif" lazyload><br>抽到水月后，我们回到酒店休息，准备第二天返回武汉。</p>
+<p>吃过晚饭，我们乘坐地铁准备返回酒店，中途又顺路去了一趟动漫星城。依旧是很多人，店铺的环境说实话有些狭小，且吃多了有点头晕，我慢慢地有点走不动路了。于是我们在一家明日方舟周边占多数的谷店稍作休息，休息之余，我品鉴了一番新上的通行证饼图。想到猫猫很喜欢水月，于是给他顺手抽了一发，结果一发就出了水月。好耶～<br><img lazyload="" src="/images/loading.svg" data-src="/images/shuiyue.jpg"><br>抽到水月后，我们回到酒店休息，准备第二天返回武汉。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写到这里，广州的行程就结束了。不过还是有一点想法，在这里写下来。</p>
 <h3 id="广州食"><a href="#广州食" class="headerlink" title="广州食"></a>广州食</h3><p>吃了几天广州饭，我发现广州菜对食材的处理更多在于激发食材自然的味道，佐以辅助的酱汁来增添风味。而酱汁的腻又会用茶来中和，使食客恢复干饭的动力。</p>
 <h3 id="地铁"><a href="#地铁" class="headerlink" title="地铁"></a>地铁</h3><p>广州的地铁很宽阔，相比于武汉的二号线来说宽敞了不少。虽然之后我在武汉也坐过更为宽阔的四号线，但是当时广州宽阔的地铁让我有些讶异。</p>
@@ -418,380 +693,372 @@ mjx-container[display="true"] + br {
 <h3 id="商业化"><a href="#商业化" class="headerlink" title="商业化"></a>商业化</h3><p>虽然来广州之前就对广州的商业化程度有所想象，但是实际到了广州才发现几乎每个街区都有大型商场，简直超乎想象。</p>
 <h3 id="Last"><a href="#Last" class="headerlink" title="Last"></a>Last</h3><p>最大的感想是我在5.1日部分写的：“这时候我才觉得广州是和我处在一个世界的，不是一个被过量霓虹灯闪耀装饰出的时尚世界。”<br>因为之前旅游的次数屈指可数，每次又有家长陪同，没有什么自主的权利。这一回和朋友一道出游，从规划到行动都是自己选择的，像是世界真正地把广州这块地图向我开放了。<br>也许是这种自主性，让我感到前所未有的自由。<br>读万卷书，行万卷书，希望我能一直阅读、一直行走。</p>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+		</div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 广州行</li>
+        <li><strong>Author:</strong> blank</li>
+        <li><strong>Created at
+                :</strong> 2026-05-05 16:34:27</li>
         
-  <a href="/categories/%E9%9A%8F%E7%AC%94/" class="category-chain-item">随笔</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E6%B8%B8%E8%AE%B0/" class="print-no-link">#游记</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>广州行</div>
-      <div>https://b1ank799.github.io/2026/05/05/广州行/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>Author</div>
-          <div>blank</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>Posted on</div>
-          <div>May 5, 2026</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>Licensed under</div>
-          <div>
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-08-10 18:24:42
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://b1ank799.github.io/2026/05/05/广州行/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2026/05/24/Graph/" title="Graph">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Graph</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2026/04/29/WHUCTF2026/" title="WHUCTF2026">
-                        <span class="hidden-mobile">WHUCTF2026</span>
-                        <span class="visible-mobile">Next</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
 
             
-  
-  
-    <article id="comments" lazyload>
-      
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
 
-    </article>
-  
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%B8%B8%E8%AE%B0/">#游记</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/05/24/Graph/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Graph</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/04/29/WHUCTF2026/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">WHUCTF2026</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
 
 
-          </article>
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
+
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
+
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
+          }
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">广州行</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1"><span class="nav-text">5.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2"><span class="nav-text">5.2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3"><span class="nav-text">5.3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%BF%E5%B7%9E%E9%A3%9F"><span class="nav-text">广州食</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E9%93%81"><span class="nav-text">地铁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BF%E5%8C%96"><span class="nav-text">绿化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%86%E4%B8%9A%E5%8C%96"><span class="nav-text">商业化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Last"><span class="nav-text">Last</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">blank</a>
+            
         </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>Table of Contents</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
+        
+        
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
 </div>
 
-    
 
-    
-  </main>
+	
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+</main>
 
 
 
+<script src="/js/build/libs/Swup.min.js"></script>
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
 
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
 
-  
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
 <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
     });
-  });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
 </script>
 
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
-  <script>Fluid.plugins.codeWidget();</script>
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+
+
+
 
 
   
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/build/libs/Typed.min.js"></script>
 
 
 
 
 
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
 
 
-  
 
-  <noscript>
-    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
-  </noscript>
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
 </body>
+
 </html>

