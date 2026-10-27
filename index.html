@@ -671,7 +671,7 @@ mjx-container[display="true"] + br {
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2026/10/26/web_%E7%88%86%E7%A0%B4/">
+                        <a href="/2026/10/27/web_%E7%88%86%E7%A0%B4/">
                             web_爆破
                         </a>
                     </h3>
@@ -680,16 +680,20 @@ mjx-container[display="true"] + br {
                         
                             
                             前言很少做爆破的题，学习ing
+web21下载附件的dic.zip，发现给了一个字典，进入靶场发现要登录，猜测是字典爆破。抓包发现这个请求头
+1Authorization: Basic YWRtaW46MQ==//这个是base64编码的admin:1
 
+我们对这个后面插入给的字典并base64编码
+1Authorization: Basic {{base64enc(admin:{{payl...
                         
                     </div>
 
                     <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
         <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Mon Oct 26 2026 23:08:50 GMT+0800">
+            <span class="home-article-date" data-date="Tue Oct 27 2026 20:15:50 GMT+0800">
                 
-                    2026-10-26
+                    2026-10-27
                 
             </span>
         </span>
@@ -725,7 +729,7 @@ mjx-container[display="true"] + br {
         
     </div>
 
-    <a href="/2026/10/26/web_%E7%88%86%E7%A0%B4/">Read more<span class="seo-reader-text">web_爆破</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2026/10/27/web_%E7%88%86%E7%A0%B4/">Read more<span class="seo-reader-text">web_爆破</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
