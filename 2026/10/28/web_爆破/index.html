@@ -78,7 +78,7 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="https://b1ank799.github.io/2026/10/27/web_爆破/"/>
+    <link rel="canonical" href="https://b1ank799.github.io/2026/10/28/web_爆破/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
@@ -88,13 +88,13 @@
         <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="web_爆破">
-<meta property="og:url" content="https://b1ank799.github.io/2026/10/27/web_%E7%88%86%E7%A0%B4/index.html">
+<meta property="og:url" content="https://b1ank799.github.io/2026/10/28/web_%E7%88%86%E7%A0%B4/index.html">
 <meta property="og:site_name" content="blank">
 <meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://b1ank799.github.io/images/redefine-og.webp">
-<meta property="article:published_time" content="2026-10-27T12:15:50.000Z">
-<meta property="article:modified_time" content="2026-10-27T15:29:34.093Z">
+<meta property="article:published_time" content="2026-10-28T12:15:50.000Z">
+<meta property="article:modified_time" content="2026-10-28T13:54:31.419Z">
 <meta property="article:author" content="blank">
 <meta property="article:tag" content="ctf">
 <meta name="twitter:card" content="summary">
@@ -585,8 +585,12 @@ mjx-container[display="true"] + br {
 
 		<div class="article-title relative w-full">
 			
-			<div class="w-full flex items-center pt-6 justify-start">
-				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">web_爆破</h1>
+			
+			
+			<img src="/images/covers/sea.png" alt="web_爆破" class="w-full h-60 sm:h-72 md:h-80 object-cover rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">web_爆破</h1>
 			</div>
 			
 		</div>
@@ -607,15 +611,15 @@ mjx-container[display="true"] + br {
 					<div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2026-10-27 20:15:50</span>
-        <span class="mobile">2026-10-27 20:15:50</span>
+        <span class="desktop">2026-10-28 20:15:50</span>
+        <span class="mobile">2026-10-28 20:15:50</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-10-27 23:29:34</span>
-            <span class="mobile">2026-10-27 23:29:34</span>
+            <span class="desktop">2026-10-28 21:54:31</span>
+            <span class="mobile">2026-10-28 21:54:31</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -653,12 +657,12 @@ mjx-container[display="true"] + br {
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>915 Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>1.1k Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>3 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>4 Mins</span>
         </span>
     
     
@@ -727,9 +731,13 @@ mjx-container[display="true"] + br {
 <div class="code-container" data-rel="Php"><figure class="iseeu highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$seed</span> = <span class="number">0x0b54482b</span>;</span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="variable">$seed</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$r</span> = <span class="title function_ invoke__">mt_rand</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"r: <span class="subst">$r</span>\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>() + <span class="title function_ invoke__">mt_rand</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></div>
 
 <h2 id="web26"><a href="#web26" class="headerlink" title="web26"></a>web26</h2><p>根据提示这个可以爆，且登录连接不上，可以拿出来我们准备好的rockyou了（（（<br>把准备好的字典导入yakit可能需要一点时间……<br>算了还是别用rockyou了，我的电脑电扇呼呼呼了（（（</p>
-<p>这里还是要字典爆破密码，最终密码为7758521（查看了wp）因为懒得再找字典orz</p>
-<h2 id="web27"><a href="#web27" class="headerlink" title="web27"></a>web27</h2><p>可以获得录取名单，要根据录取名单和身份证号进行查询<br>单独抓包发现query.php不是真正的借口，F12查询发现index是说真正的check在checkdb里</p>
-<div class="code-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">check</span>(<span class="params"></span>){</span><br><span class="line">			$.<span class="title function_">ajax</span>({</span><br><span class="line">			<span class="attr">url</span>:<span class="string">'checkdb.php'</span>,</span><br><span class="line">			<span class="attr">type</span>: <span class="string">'POST'</span>,</span><br><span class="line">			<span class="attr">dataType</span>:<span class="string">'json'</span>,</span><br><span class="line">			<span class="attr">data</span>:{</span><br><span class="line">				<span class="string">'a'</span>:$(<span class="string">'#a'</span>).<span class="title function_">val</span>(),</span><br><span class="line">				<span class="string">'p'</span>:$(<span class="string">'#p'</span>).<span class="title function_">val</span>()</span><br><span class="line">			},</span><br><span class="line">			<span class="attr">success</span>:<span class="keyword">function</span>(<span class="params">data</span>){</span><br><span class="line">				<span class="title function_">alert</span>(data[<span class="string">'msg'</span>]);</span><br><span class="line">			},</span><br><span class="line">			<span class="attr">error</span>:<span class="keyword">function</span>(<span class="params">data</span>){</span><br><span class="line">				<span class="title function_">alert</span>(data[<span class="string">'msg'</span>]);</span><br><span class="line">			}</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<p>这里还是要字典爆破密码，最终密码为7758521。<br>关于爆破。<br>因为我习惯用yakit,所以就用yakit导入了一个字典，这里我用的字典是Seclists的<code>000000-password-seclists.txt</code>，导入后发包，在规则配置中找到匹配器配置筛选功能，修改匹配规则，最终等待全部发完包之后可以提取到最终成功的密码。</p>
+<p>当然，等待爆破也是**。建议直接跳过。</p>
+<h2 id="web28"><a href="#web28" class="headerlink" title="web28"></a>web28</h2><p>抓包发现怎么全都302啊。<br>我们对0/1参数进行爆破，范围我选取了0-99,插入字典并过滤，找返回200的就行了。</p>
+<p>这个题好没意思……</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>花了一点时间，中间也出了一点问题跳过了一些题目……代码审计和算术爆破我都能接受，直接爆破字典还是太烦人了……</p>
+<p>没有什么特别好总结的，主要就是算术和字典爆破。算术可能要经过代码审计和自己写脚本。</p>
+<p>但是我懒得找字典orz</p>
 
 		</div>
 
@@ -740,15 +748,15 @@ mjx-container[display="true"] + br {
         <li><strong>Title:</strong> web_爆破</li>
         <li><strong>Author:</strong> blank</li>
         <li><strong>Created at
-                :</strong> 2026-10-27 20:15:50</li>
+                :</strong> 2026-10-28 20:15:50</li>
         
             <li>
                 <strong>Updated at
-                    :</strong> 2026-10-27 23:29:34
+                    :</strong> 2026-10-28 21:54:31
             </li>
         
         <li>
-            <strong>Link:</strong> https://b1ank799.github.io/2026/10/27/web_爆破/
+            <strong>Link:</strong> https://b1ank799.github.io/2026/10/28/web_爆破/
         </li>
         <li>
             <strong>
@@ -869,7 +877,7 @@ mjx-container[display="true"] + br {
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">web_爆破</div>
-		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web21"><span class="nav-text">web21</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web22"><span class="nav-text">web22</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web23"><span class="nav-text">web23</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web24"><span class="nav-text">web24</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web25"><span class="nav-text">web25</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web26"><span class="nav-text">web26</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web27"><span class="nav-text">web27</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web21"><span class="nav-text">web21</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web22"><span class="nav-text">web22</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web23"><span class="nav-text">web23</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web24"><span class="nav-text">web24</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web25"><span class="nav-text">web25</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web26"><span class="nav-text">web26</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web28"><span class="nav-text">web28</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
 
 	</div>
 </div>
